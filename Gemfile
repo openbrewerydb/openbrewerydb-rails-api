@@ -6,9 +6,10 @@ ruby '2.4.2'
 # Backend
 gem 'puma', '~> 3.11'
 gem 'rails', '~> 5.2.0'
+gem 'bcrypt'
 
 # Database
-gem 'pg', '>= 0.18', '< 2.0', group: [:production, :development]
+gem 'pg', group: [:production, :development]
 gem 'sqlite3', group: [:test]
 
 # Frontend
