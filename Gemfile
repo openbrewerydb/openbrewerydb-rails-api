@@ -4,9 +4,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.4.2'
 
 # Backend
+gem 'bcrypt'
+gem 'jwt'
 gem 'puma', '~> 3.11'
 gem 'rails', '~> 5.2.0'
-gem 'bcrypt'
 
 # Database
 gem 'pg', group: [:production, :development]
