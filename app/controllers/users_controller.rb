@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
+  skip_before_action :authorize_request, only: :create
+
   # POST /signup
   def create
     user = User.create!(user_params)
