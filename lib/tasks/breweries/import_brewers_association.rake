@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 namespace :breweries do
-  desc 'Import Brewers Association for US States'
-  task import_brewers_association: :environment do
-    ImportBrewersAssociation.perform
+  namespace :import do
+    desc 'Import Brewers Association data'
+    task brewers_association: :environment do
+      Import::BrewersAssociation.perform
+    end
   end
 end
