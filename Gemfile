@@ -15,8 +15,8 @@ gem 'sqlite3', group: [:test]
 
 # Frontend
 gem 'bootsnap', '>= 1.1.0', require: false
-gem 'jbuilder', '~> 2.5'
 gem 'rack-cors'
+gem 'colorize'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
