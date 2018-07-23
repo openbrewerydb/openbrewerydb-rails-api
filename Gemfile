@@ -27,6 +27,7 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'rspec_junit_formatter'
   gem 'simplecov', require: false
   gem 'shoulda-matchers', '~> 3.1'
 end
