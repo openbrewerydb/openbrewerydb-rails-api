@@ -3,22 +3,33 @@
 require 'rails_helper'
 
 RSpec.describe 'Breweries API', type: :request do
+  let!(:breweries) { create_list(:brewery, 25) }
   let(:user) { create(:user) }
-  let!(:brewery) { create(:brewery) }
-  let(:brewery_id) { brewery.id }
+  let(:brewery_id) { breweries.first.id }
   let(:headers) { valid_headers }
 
   describe 'GET /breweries' do
-    before { get '/breweries', params: {}, headers: headers }
+    context 'when no params are passed' do
+      before { get '/breweries', params: {}, headers: headers }
 
-    it 'returns breweries' do
-      expect(json).not_to be_empty
-      expect(json.size).to eq(1)
+      it 'returns breweries' do
+        expect(json).not_to be_empty
+        expect(json.size).to eq(20)
+      end
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
+      end
     end
 
-    it 'returns status code 200' do
-      expect(response).to have_http_status(200)
+    context 'when page params are passed' do
+      before { get '/breweries', params: { page: 2 }, headers: headers }
+
+      it 'returns an offset of breweries' do
+        expect(json.size).to eq(5)
+      end
     end
+
   end
 
   describe 'GET /breweries/:id' do

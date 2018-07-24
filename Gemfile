@@ -9,6 +9,9 @@ gem 'jwt'
 gem 'puma', '~> 3.11'
 gem 'rails', '~> 5.2.0'
 
+# Pagination
+gem 'kaminari'
+
 # Database
 gem 'pg', group: [:production, :development]
 gem 'sqlite3', group: [:test]

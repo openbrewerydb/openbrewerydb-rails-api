@@ -5,7 +5,7 @@ class BreweriesController < ApplicationController
 
   # GET /breweries
   def index
-    @breweries = Brewery.all
+    @breweries = Brewery.page params[:page]
     json_response(@breweries)
   end
 
