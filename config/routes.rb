@@ -2,6 +2,10 @@
 
 Rails.application.routes.draw do
   resources :breweries
-  post 'auth/login', to: 'authentication#authenticate'
+
+  # Authentication
+  post 'login', to: 'authentication#authenticate'
+
+  # Sign-up
   post 'signup', to: 'users#create'
 end
