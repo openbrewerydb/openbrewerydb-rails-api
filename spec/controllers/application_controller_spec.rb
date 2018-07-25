@@ -22,7 +22,7 @@ RSpec.describe ApplicationController, type: :controller do
       it 'returns a MissingToken error' do
         expect { subject.instance_eval { authorize_request } }.to raise_error(
           ExceptionHandler::MissingToken,
-          /Missing token/
+          /Missing auth token/
         )
       end
     end
