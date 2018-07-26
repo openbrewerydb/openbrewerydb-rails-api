@@ -34,20 +34,20 @@ class BreweriesController < ApplicationController
 
   private
 
-  def brewery_params
-    params.permit(
-      :name,
-      :address,
-      :city,
-      :state,
-      :postal_code,
-      :phone,
-      :website_url,
-      :brewery_type
-    )
-  end
+    def brewery_params
+      params.permit(
+        :name,
+        :address,
+        :city,
+        :state,
+        :postal_code,
+        :phone,
+        :website_url,
+        :brewery_type
+      )
+    end
 
-  def set_brewery
-    @brewery = Brewery.find(params[:id])
-  end
+    def set_brewery
+      @brewery = Brewery.find(params[:id])
+    end
 end
