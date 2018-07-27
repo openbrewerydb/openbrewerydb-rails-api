@@ -5,6 +5,7 @@ class BreweriesController < ApplicationController
 
   # GET /breweries
   def index
+    expires_in 1.day, public: true
     @breweries = Brewery.page params[:page]
     json_response(@breweries)
   end

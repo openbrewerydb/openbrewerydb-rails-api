@@ -18,6 +18,12 @@ RSpec.describe "Breweries API", type: :request do
       it "returns status code 200" do
         expect(response).to have_http_status(200)
       end
+
+      it "returns Cache-Control headers" do
+        expect(response.headers["Cache-Control"]).to eq(
+          "max-age=86400, public"
+        )
+      end
     end
 
     context "when page params are passed" do
