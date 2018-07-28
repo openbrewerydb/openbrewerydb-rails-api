@@ -26,11 +26,53 @@ RSpec.describe "Breweries API", type: :request do
       end
     end
 
-    context "when page params are passed" do
+    context "when page param is passed" do
       before { get "/breweries", params: { page: 2 } }
 
-      it "returns an offset of breweries" do
+      it "returns another page of breweries" do
         expect(json.size).to eq(5)
+      end
+    end
+
+    context "when by_city param is passed" do
+      let!(:san_diego_breweries) { create_list(:brewery, 3, city: "San Diego") }
+      before { get "/breweries", params: { by_city: "san Diego" } }
+
+      it "returns a filtered list of breweries" do
+        expect(json.size).to eq(3)
+      end
+    end
+
+    context "when by_name param is passed" do
+      let!(:mchappy_breweries) do
+        create_list(:brewery, 3, name: "McHappy's Brewpub Extravaganza")
+      end
+      before { get "/breweries", params: { by_name: "mchappy" } }
+
+      it "returns a filtered list of breweries" do
+        expect(json.size).to eq(3)
+      end
+    end
+
+    context "when by_state param is passed" do
+      let!(:everystate_breweries) do
+        create_list(:brewery, 3, state: "Everystate")
+      end
+      before { get "/breweries", params: { by_state: "everyState" } }
+
+      it "returns a filtered list of breweries" do
+        expect(json.size).to eq(3)
+      end
+    end
+
+    context "when by_type param is passed" do
+      let!(:planned_breweries) do
+        create_list(:brewery, 3, brewery_type: "planned")
+      end
+      before { get "/breweries", params: { by_type: "Planned" } }
+
+      it "returns a filtered list of breweries" do
+        expect(json.size).to eq(3)
       end
     end
   end
@@ -68,7 +110,7 @@ RSpec.describe "Breweries API", type: :request do
     context "when the request is valid" do
       before { post "/breweries", params: valid_attributes }
 
-      it "creates a todo" do
+      it "creates a brewery" do
         expect(json["name"]).to eq("Awesome Brewery")
       end
 

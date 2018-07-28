@@ -3,10 +3,19 @@
 class BreweriesController < ApplicationController
   before_action :set_brewery, only: %i[show update destroy]
 
+  # FILTER: /breweries?by_city=san%20diego
+  has_scope :by_city, only: :index
+  # FILTER: /breweries?by_name=almanac
+  has_scope :by_name, only: :index
+  # FILTER: /breweries?by_state=california
+  has_scope :by_state, only: :index
+  # FILTER: /breweries?by_type=micro
+  has_scope :by_type, only: :index
+
   # GET /breweries
   def index
     expires_in 1.day, public: true
-    @breweries = Brewery.page params[:page]
+    @breweries = apply_scopes(Brewery).page(params[:page])
     json_response(@breweries)
   end
 

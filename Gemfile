@@ -5,6 +5,7 @@ ruby '2.4.2'
 
 # Backend
 gem 'bcrypt'
+gem 'has_scope'
 gem 'jwt'
 gem 'puma', '~> 3.11'
 gem 'rails', '~> 5.2.0'
@@ -24,6 +25,7 @@ gem 'colorize'
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails'
+  gem 'guard-rspec'
 end
 
 group :test do
