@@ -10,19 +10,36 @@ RSpec.describe "Breweries API", type: :request do
         get "/breweries"
       end
 
-      it "returns breweries" do
+      # NB: Set in /config/initializers/kaminari_config.rb
+      it "returns the default number of breweries" do
         expect(json).not_to be_empty
         expect(json.size).to eq(20)
       end
 
       it "returns status code 200" do
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
 
       it "returns Cache-Control headers" do
         expect(response.headers["Cache-Control"]).to eq(
           "max-age=86400, public"
         )
+      end
+    end
+
+    context "when invalid params are passed" do
+      before do
+        create_list(:brewery, 25)
+        get "/breweries", params: { page: "invalid", sort: "*bob" }
+      end
+
+      it "returns a status of 200" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns the default number of breweries" do
+        expect(json).not_to be_empty
+        expect(json.size).to eq(20)
       end
     end
 
@@ -34,6 +51,23 @@ RSpec.describe "Breweries API", type: :request do
 
       it "returns another page of breweries" do
         expect(json.size).to eq(5)
+      end
+    end
+
+    context "when limit param is passed" do
+      before do
+        create_list(:brewery, 55)
+      end
+
+      it "returns a limited number breweries" do
+        get "/breweries", params: { limit: 5 }
+        expect(json.size).to eq(5)
+      end
+
+      # NB: Set in /config/initializers/kaminari_config.rb
+      it "does not exceed the maximum number of breweries" do
+        get "/breweries", params: { limit: 55 }
+        expect(json.size).to eq(50)
       end
     end
 
@@ -108,7 +142,7 @@ RSpec.describe "Breweries API", type: :request do
           [
             "Circle 9 Brewing",
             "Alesmith",
-            "Ballast Point Brewing Company",
+            "Ballast Point Brewing Company"
           ]
         )
       end
