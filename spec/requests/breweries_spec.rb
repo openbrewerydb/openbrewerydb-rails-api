@@ -3,12 +3,12 @@
 require "rails_helper"
 
 RSpec.describe "Breweries API", type: :request do
-  let!(:breweries) { create_list(:brewery, 25) }
-  let(:brewery_id) { breweries.first.id }
-
   describe "GET /breweries" do
     context "when no params are passed" do
-      before { get "/breweries" }
+      before do
+        create_list(:brewery, 25)
+        get "/breweries"
+      end
 
       it "returns breweries" do
         expect(json).not_to be_empty
@@ -27,7 +27,10 @@ RSpec.describe "Breweries API", type: :request do
     end
 
     context "when page param is passed" do
-      before { get "/breweries", params: { page: 2 } }
+      before do
+        create_list(:brewery, 25)
+        get "/breweries", params: { page: 2 }
+      end
 
       it "returns another page of breweries" do
         expect(json.size).to eq(5)
@@ -35,30 +38,34 @@ RSpec.describe "Breweries API", type: :request do
     end
 
     context "when by_city param is passed" do
-      let!(:san_diego_breweries) { create_list(:brewery, 3, city: "San Diego") }
-      before { get "/breweries", params: { by_city: "san Diego" } }
+      before do
+        create_list(:brewery, 8)
+        create_list(:brewery, 2, city: "San Diego")
+        get "/breweries", params: { by_city: "san Diego" }
+      end
 
       it "returns a filtered list of breweries" do
-        expect(json.size).to eq(3)
+        expect(json.size).to eq(2)
       end
     end
 
     context "when by_name param is passed" do
-      let!(:mchappy_breweries) do
-        create_list(:brewery, 3, name: "McHappy's Brewpub Extravaganza")
+      before do
+        create_list(:brewery, 8)
+        create_list(:brewery, 2, name: "McHappy's Brewpub Extravaganza")
+        get "/breweries", params: { by_name: "mchappy" }
       end
-      before { get "/breweries", params: { by_name: "mchappy" } }
 
       it "returns a filtered list of breweries" do
-        expect(json.size).to eq(3)
+        expect(json.size).to eq(2)
       end
     end
 
     context "when by_state param is passed" do
-      let!(:everystate_breweries) do
+      before do
         create_list(:brewery, 3, state: "Everystate")
+        get "/breweries", params: { by_state: "everyState" }
       end
-      before { get "/breweries", params: { by_state: "everyState" } }
 
       it "returns a filtered list of breweries" do
         expect(json.size).to eq(3)
@@ -66,18 +73,52 @@ RSpec.describe "Breweries API", type: :request do
     end
 
     context "when by_type param is passed" do
-      let!(:planned_breweries) do
+      before do
         create_list(:brewery, 3, brewery_type: "planned")
+        get "/breweries", params: { by_type: "Planned" }
       end
-      before { get "/breweries", params: { by_type: "Planned" } }
 
       it "returns a filtered list of breweries" do
         expect(json.size).to eq(3)
       end
     end
+
+    context "when sort param is passed" do
+      before do
+        create(
+          :brewery,
+          name: "Alesmith",
+          brewery_type: "micro"
+        )
+        create(
+          :brewery,
+          name: "Ballast Point Brewing Company",
+          brewery_type: "regional"
+        )
+        create(
+          :brewery,
+          name: "Circle 9 Brewing",
+          brewery_type: "micro"
+        )
+        get "/breweries", params: { sort: "type,-name" }
+      end
+
+      it "returns a sorted list of breweries" do
+        expect(json.map { |brewery| brewery["name"] }).to eq(
+          [
+            "Circle 9 Brewing",
+            "Alesmith",
+            "Ballast Point Brewing Company",
+          ]
+        )
+      end
+    end
   end
 
   describe "GET /breweries/:id" do
+    let!(:breweries) { create_list(:brewery, 5) }
+    let(:brewery_id) { breweries.first.id }
+
     before { get "/breweries/#{brewery_id}" }
 
     context "when the record exists" do
@@ -134,10 +175,11 @@ RSpec.describe "Breweries API", type: :request do
   end
 
   describe "PUT /breweries/:id" do
+    let!(:brewery) { create(:brewery) }
     let(:valid_attributes) { { name: "Another Brewery" } }
 
     context "when the record exists" do
-      before { put "/breweries/#{brewery_id}", params: valid_attributes }
+      before { put "/breweries/#{brewery.id}", params: valid_attributes }
 
       it "updates the record" do
         expect(response.body).to be_empty
@@ -150,7 +192,10 @@ RSpec.describe "Breweries API", type: :request do
   end
 
   describe "DELETE /breweries/:id" do
-    before { delete "/breweries/#{brewery_id}" }
+    let!(:brewery) { create(:brewery) }
+    let(:valid_attributes) { { name: "Another Brewery" } }
+
+    before { delete "/breweries/#{brewery.id}" }
 
     it "returns status code 204" do
       expect(response).to have_http_status(204)

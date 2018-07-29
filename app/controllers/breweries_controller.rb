@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class BreweriesController < ApplicationController
+  SORT_ORDER = { '+': :asc, '-': :desc }.freeze
+
   before_action :set_brewery, only: %i[show update destroy]
 
   # FILTER: /breweries?by_city=san%20diego
@@ -15,7 +17,7 @@ class BreweriesController < ApplicationController
   # GET /breweries
   def index
     expires_in 1.day, public: true
-    @breweries = apply_scopes(Brewery).page(params[:page])
+    @breweries = apply_scopes(Brewery).order(order_params).page(params[:page])
     json_response(@breweries)
   end
 
@@ -55,6 +57,31 @@ class BreweriesController < ApplicationController
         :website_url,
         :brewery_type
       )
+    end
+
+    # A list of the param names that can be used for ordering the model list
+    # For example it retrieves a list of breweries in descending order of type.
+    # Within a specific type, names are ordered first
+    #
+    # GET /breweries?sort=-type,name
+    # order_params # => { brewery_type: :desc, name: :asc }
+    # Brewery.order(brewery_type: :desc, name: :asc)
+    #
+    def order_params
+      return unless params[:sort]
+
+      ordering = {}
+      sorted_params = params[:sort].split(',')
+
+      sorted_params.each do |attr|
+        sort_sign = attr =~ /^[+-]/ ? attr.slice!(0) : '+'
+        attr = 'brewery_type' if attr == 'type'
+        if Brewery.attribute_names.include?(attr)
+          ordering[attr] = SORT_ORDER[sort_sign.to_sym]
+        end
+      end
+
+      ordering
     end
 
     def set_brewery
