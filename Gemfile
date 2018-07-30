@@ -10,6 +10,9 @@ gem 'jwt'
 gem 'puma', '~> 3.11'
 gem 'rails', '~> 5.2.0'
 
+# Elastic Search
+gem 'searchkick'
+
 # Pagination
 gem 'kaminari'
 

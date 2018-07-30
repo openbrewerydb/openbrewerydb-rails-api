@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Brewery < ApplicationRecord
+  # Elastic Search via Searchkick
+  searchkick
+
   validates :name, presence: true
 
   scope :by_city, ->(city) { where('lower(city) = ?', city.downcase) }

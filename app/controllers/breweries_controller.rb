@@ -17,11 +17,16 @@ class BreweriesController < ApplicationController
   # GET /breweries
   def index
     expires_in 1.day, public: true
+
     @breweries =
-      apply_scopes(Brewery)
-      .order(order_params)
-      .page(params[:page])
-      .per(params[:limit])
+      if params[:q]
+        search_breweries
+      else
+        apply_scopes(Brewery)
+          .order(order_params)
+          .page(params[:page])
+          .per(params[:limit])
+      end
 
     json_response(@breweries)
   end
@@ -88,6 +93,14 @@ class BreweriesController < ApplicationController
       end
 
       ordering
+    end
+
+    def search_breweries
+      Brewery.search(
+        params[:q],
+        page: params[:page],
+        per_page: params[:limit]
+      )
     end
 
     def set_brewery
