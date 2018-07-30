@@ -17,7 +17,6 @@ class BreweriesController < ApplicationController
   # GET /breweries
   def index
     expires_in 1.day, public: true
-
     @breweries =
       if params[:q]
         search_breweries
@@ -27,14 +26,7 @@ class BreweriesController < ApplicationController
           .page(params[:page])
           .per(params[:limit])
       end
-
     json_response(@breweries)
-  end
-
-  # POST /breweries
-  def create
-    @brewery = Brewery.create!(brewery_params)
-    json_response(@brewery, :created)
   end
 
   # GET /breweries/:id
@@ -43,13 +35,22 @@ class BreweriesController < ApplicationController
     json_response(@brewery)
   end
 
+  # POST /breweries
+  # NOTE: Disabled (/config/routes.rb)
+  def create
+    @brewery = Brewery.create!(brewery_params)
+    json_response(@brewery, :created)
+  end
+
   # PUT /breweries/:id
+  # NOTE: Disabled (/config/routes.rb)
   def update
     @brewery.update(brewery_params)
     head :no_content
   end
 
   # DELETE /breweries/:id
+  # NOTE: Disabled (/config/routes.rb)
   def destroy
     @brewery.destroy
     head :no_content

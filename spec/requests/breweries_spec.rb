@@ -183,29 +183,35 @@ RSpec.describe "Breweries API", type: :request do
     let(:valid_attributes) { { name: "Awesome Brewery" } }
 
     context "when the request is valid" do
-      before { post "/breweries", params: valid_attributes }
+      # NOTE: Keep for when adding authentication
+      # it "creates a brewery" do
+      #   expect(json["name"]).to eq("Awesome Brewery")
+      # end
+      #
+      # it "returns status code 201" do
+      #   expect(response).to have_http_status(201)
+      # end
 
-      it "creates a brewery" do
-        expect(json["name"]).to eq("Awesome Brewery")
-      end
-
-      it "returns status code 201" do
-        expect(response).to have_http_status(201)
-      end
-    end
-
-    context "when the request is invalid" do
-      before { post "/breweries", params: { name: "" } }
-
-      it "returns status code 422" do
-        expect(response).to have_http_status(422)
-      end
-
-      it "returns a validation failure message" do
-        expect(response.body)
-          .to match(/Validation failed: Name can't be blank/)
+      it "returns returns a routing error" do
+        expect { post "/breweries", params: valid_attributes }.to raise_error(
+          ActionController::RoutingError
+        )
       end
     end
+
+    # NOTE: Keep for when adding authentication
+    # context "when the request is invalid" do
+    #   before { post "/breweries", params: { name: "" } }
+    # 
+    #   it "returns status code 422" do
+    #     expect(response).to have_http_status(422)
+    #   end
+    #
+    #   it "returns a validation failure message" do
+    #     expect(response.body)
+    #       .to match(/Validation failed: Name can't be blank/)
+    #   end
+    # end
   end
 
   describe "PUT /breweries/:id" do
@@ -213,14 +219,21 @@ RSpec.describe "Breweries API", type: :request do
     let(:valid_attributes) { { name: "Another Brewery" } }
 
     context "when the record exists" do
-      before { put "/breweries/#{brewery.id}", params: valid_attributes }
+      # NOTE: Keep for when adding authentication
+      # before { put "/breweries/#{brewery.id}", params: valid_attributes }
+      #
+      # it "updates the record" do
+      #   expect(response.body).to be_empty
+      # end
+      #
+      # it "returns status code 204" do
+      #   expect(response).to have_http_status(204)
+      # end
 
-      it "updates the record" do
-        expect(response.body).to be_empty
-      end
-
-      it "returns status code 204" do
-        expect(response).to have_http_status(204)
+      it "returns a routing error" do
+        expect do
+          put "/breweries/#{brewery.id}", params: valid_attributes
+        end.to raise_error(ActionController::RoutingError)
       end
     end
   end
@@ -229,10 +242,17 @@ RSpec.describe "Breweries API", type: :request do
     let!(:brewery) { create(:brewery) }
     let(:valid_attributes) { { name: "Another Brewery" } }
 
-    before { delete "/breweries/#{brewery.id}" }
+    # NOTE: Keep for when adding authentication
+    # before { delete "/breweries/#{brewery.id}" }
+    #
+    # it "returns status code 204" do
+    #   expect(response).to have_http_status(204)
+    # end
 
-    it "returns status code 204" do
-      expect(response).to have_http_status(204)
+    it "return a routing error" do
+      expect { delete "/breweries/#{brewery.id}" }.to raise_error(
+        ActionController::RoutingError
+      )
     end
   end
 end
