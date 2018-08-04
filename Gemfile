@@ -8,6 +8,7 @@ gem 'bcrypt'
 gem 'has_scope'
 gem 'jwt'
 gem 'puma', '~> 3.11'
+gem 'rack-cors'
 gem 'rails', '~> 5.2.0'
 
 # Analytics
