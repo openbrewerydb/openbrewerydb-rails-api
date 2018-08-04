@@ -10,6 +10,9 @@ gem 'jwt'
 gem 'puma', '~> 3.11'
 gem 'rails', '~> 5.2.0'
 
+# Analytics
+gem 'ahoy_matey'
+
 # Elastic Search
 gem 'searchkick'
 
@@ -17,8 +20,7 @@ gem 'searchkick'
 gem 'kaminari'
 
 # Database
-gem 'pg', group: [:production, :development]
-gem 'sqlite3', group: [:test]
+gem 'pg'
 
 # Frontend
 gem 'active_model_serializers', '~> 0.10.0'
@@ -28,6 +30,7 @@ gem 'colorize'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'dotenv-rails'
   gem 'rspec-rails'
   gem 'guard-rspec'
 end

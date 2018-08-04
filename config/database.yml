@@ -9,8 +9,8 @@ development:
   database: openbrewerydb_development
 
 test:
-  adapter: sqlite3
-  database: db/test.sqlite3
+  <<: *default
+  database: openbrewerydb_test
 
 production:
   url: <%= ENV['DATABASE_URL'] %>

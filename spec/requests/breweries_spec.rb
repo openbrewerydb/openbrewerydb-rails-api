@@ -25,6 +25,10 @@ RSpec.describe "Breweries API", type: :request do
           "max-age=86400, public"
         )
       end
+
+      it "adds an event" do
+        expect(Ahoy::Event.all.size).to eq(1)
+      end
     end
 
     context "when invalid params are passed" do
@@ -202,7 +206,7 @@ RSpec.describe "Breweries API", type: :request do
     # NOTE: Keep for when adding authentication
     # context "when the request is invalid" do
     #   before { post "/breweries", params: { name: "" } }
-    # 
+    #
     #   it "returns status code 422" do
     #     expect(response).to have_http_status(422)
     #   end
