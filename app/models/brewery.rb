@@ -2,7 +2,7 @@
 
 class Brewery < ApplicationRecord
   # Elastic Search via Searchkick
-  searchkick
+  searchkick word_start: [:name]
 
   validates :name, presence: true
 

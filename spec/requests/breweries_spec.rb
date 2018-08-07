@@ -58,19 +58,19 @@ RSpec.describe "Breweries API", type: :request do
       end
     end
 
-    context "when limit param is passed" do
+    context "when per_page param is passed" do
       before do
         create_list(:brewery, 55)
       end
 
       it "returns a limited number breweries" do
-        get "/breweries", params: { limit: 5 }
+        get "/breweries", params: { per_page: 5 }
         expect(json.size).to eq(5)
       end
 
       # NB: Set in /config/initializers/kaminari_config.rb
-      it "does not exceed the maximum number of breweries" do
-        get "/breweries", params: { limit: 55 }
+      it "does not exceed the maximum number of breweries per page" do
+        get "/breweries", params: { per_page: 55 }
         expect(json.size).to eq(50)
       end
     end

@@ -23,14 +23,10 @@ class BreweriesController < ApplicationController
     expires_in 1.day, public: true
 
     @breweries =
-      if params[:q]
-        search_breweries
-      else
-        apply_scopes(Brewery)
-          .order(order_params)
-          .page(params[:page])
-          .per(params[:limit])
-      end
+      apply_scopes(Brewery)
+      .order(order_params)
+      .page(params[:page])
+      .per(params[:per_page])
 
     json_response(@breweries)
   end
@@ -41,22 +37,45 @@ class BreweriesController < ApplicationController
     json_response(@brewery)
   end
 
+  # GET /breweries/autocomplete
+  def autocomplete
+    @breweries = Brewery.search(
+      params[:query],
+      fields: ['name'],
+      match: :word_start,
+      limit: 10,
+      load: false,
+      misspellings: { below: 5 }
+    )
+    json_response(@breweries.map { |b| { id: b.id, name: b.name } })
+  end
+
+  # GET /breweries/search
+  def search
+    @breweries = Brewery.search(
+      params[:query],
+      page: params[:page],
+      per_page: params[:per_page]
+    )
+    json_response(@breweries)
+  end
+
   # POST /breweries
-  # NOTE: Disabled (/config/routes.rb)
+  # NOTE: Disabled via /config/routes.rb
   def create
     @brewery = Brewery.create!(brewery_params)
     json_response(@brewery, :created)
   end
 
   # PUT /breweries/:id
-  # NOTE: Disabled (/config/routes.rb)
+  # NOTE: Disabled via /config/routes.rb
   def update
     @brewery.update(brewery_params)
     head :no_content
   end
 
   # DELETE /breweries/:id
-  # NOTE: Disabled (/config/routes.rb)
+  # NOTE: Disabled  via /config/routes.rb
   def destroy
     @brewery.destroy
     head :no_content
@@ -100,14 +119,6 @@ class BreweriesController < ApplicationController
       end
 
       ordering
-    end
-
-    def search_breweries
-      Brewery.search(
-        params[:q],
-        page: params[:page],
-        per_page: params[:limit]
-      )
     end
 
     def set_brewery
