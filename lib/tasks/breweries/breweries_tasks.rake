@@ -7,4 +7,9 @@ namespace :breweries do
       Import::BrewersAssociation.perform
     end
   end
+
+  desc 'Convert any state abbreviations into full state (one-time task)'
+  task update_state_abbreviations: :environment do
+    UpdateStateAbbreviations.perform
+  end
 end
