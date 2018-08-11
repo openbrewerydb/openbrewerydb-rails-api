@@ -111,7 +111,7 @@ class BreweriesController < ApplicationController
       sorted_params = params[:sort].split(',')
 
       sorted_params.each do |attr|
-        sort_sign = attr =~ /^[+-]/ ? attr.slice!(0) : '+'
+        sort_sign = /^[+-]/.match?(attr) ? attr.slice!(0) : '+'
         attr = 'brewery_type' if attr == 'type'
         if Brewery.attribute_names.include?(attr)
           ordering[attr] = SORT_ORDER[sort_sign.to_sym]
