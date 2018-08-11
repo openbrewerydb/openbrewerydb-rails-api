@@ -41,11 +41,11 @@ class BreweriesController < ApplicationController
   def autocomplete
     @breweries = Brewery.search(
       params[:query],
-      fields: ['name'],
+      fields: %w[name city state],
       match: :word_start,
-      limit: 10,
+      limit: 15,
       load: false,
-      misspellings: { below: 5 }
+      misspellings: { below: 2 }
     )
     json_response(@breweries.map { |b| { id: b.id, name: b.name } })
   end
