@@ -39,6 +39,7 @@ class BreweriesController < ApplicationController
 
   # GET /breweries/autocomplete
   def autocomplete
+    expires_in 1.day, public: true
     @breweries = Brewery.search(
       params[:query],
       fields: %w[name city state],
@@ -52,6 +53,7 @@ class BreweriesController < ApplicationController
 
   # GET /breweries/search
   def search
+    expires_in 1.day, public: true
     @breweries = Brewery.search(
       params[:query],
       page: params[:page],
