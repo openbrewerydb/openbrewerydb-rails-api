@@ -103,7 +103,7 @@ module Import
           # Check if brewery already exists
           brewery_exists = Brewery.where(
             name: brewery_name,
-            address: brewery_address,
+            street: brewery_address,
             city: brewery_city,
             state: brewery_state
           ).any?
@@ -119,7 +119,7 @@ module Import
           else
             new_brewery = Brewery.create(
               name: brewery_name,
-              address: brewery_address,
+              street: brewery_address,
               city: brewery_city,
               state: brewery_state,
               postal_code: brewery_postal_code,
