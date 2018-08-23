@@ -5,7 +5,7 @@ class Brewery < ApplicationRecord
   searchkick word_start: %i[name city state]
 
   geocoded_by :address
-  after_validation :geocode 
+  after_validation :geocode
 
   validates :name, presence: true
   validates :city, presence: true
