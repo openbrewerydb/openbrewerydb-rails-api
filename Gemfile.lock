@@ -280,6 +280,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
+  geocoder
   guard-rspec
   has_scope
   jwt

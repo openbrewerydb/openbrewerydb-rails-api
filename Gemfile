@@ -5,6 +5,7 @@ ruby '2.4.2'
 
 # Backend
 gem 'bcrypt'
+gem 'geocoder'
 gem 'has_scope'
 gem 'jwt'
 gem 'puma', '~> 3.11'

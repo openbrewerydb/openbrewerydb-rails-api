@@ -74,3 +74,18 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
+
+# Disable Geocoder API calls
+Geocoder.configure(lookup: :test)
+Geocoder::Lookup::Test.set_default_stub(
+  [
+    {
+      'coordinates'  => [40.7143528, -74.0059731],
+      'address'      => 'New York, NY, USA',
+      'state'        => 'New York',
+      'state_code'   => 'NY',
+      'country'      => 'United States',
+      'country_code' => 'US'
+    }
+  ]
+)

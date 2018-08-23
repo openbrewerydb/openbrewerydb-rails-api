@@ -4,7 +4,13 @@ class Brewery < ApplicationRecord
   # Elastic Search via Searchkick
   searchkick word_start: %i[name city state]
 
+  geocoded_by :address
+  after_validation :geocode 
+
   validates :name, presence: true
+  validates :city, presence: true
+  validates :state, presence: true
+  validates :country, presence: true
 
   scope :by_city, ->(city) { where('lower(city) LIKE ?', "%#{city.downcase}%") }
   scope :by_name, ->(name) { where('lower(name) LIKE ?', "%#{name.downcase}%") }
