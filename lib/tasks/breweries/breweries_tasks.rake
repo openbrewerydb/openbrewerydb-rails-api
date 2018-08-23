@@ -12,4 +12,9 @@ namespace :breweries do
   task update_state_abbreviations: :environment do
     UpdateStateAbbreviations.perform
   end
+
+  desc 'Process Geocodes for all Breweries'
+  task update_geocodes: :environment do
+    UpdateGeocodes.perform
+  end
 end
