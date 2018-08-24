@@ -11,6 +11,7 @@ gem 'jwt'
 gem 'puma', '~> 3.11'
 gem 'rack-cors'
 gem 'rails', '~> 5.2.0'
+gem 'rollbar'
 
 # Analytics
 gem 'ahoy_matey'
@@ -27,7 +28,6 @@ gem 'pg'
 # Frontend
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'bootsnap', '>= 1.1.0', require: false
-gem 'rack-cors'
 gem 'colorize'
 
 group :development, :test do
