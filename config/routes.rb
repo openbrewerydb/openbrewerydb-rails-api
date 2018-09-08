@@ -9,4 +9,7 @@ Rails.application.routes.draw do
 
   # Sign-up
   post 'signup', to: 'users#create'
+
+  # Redirect to WWW
+  root to: redirect('https://www.openbrewerydb.org/')
 end
