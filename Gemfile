@@ -11,7 +11,7 @@ gem 'jwt'
 gem 'puma', '~> 3.11'
 gem 'rack-cors'
 gem 'rails', '~> 5.2.0'
-gem 'rollbar'
+gem 'sentry-raven'
 
 # Analytics
 gem 'ahoy_matey'
