@@ -207,8 +207,6 @@ GEM
     referer-parser (0.3.0)
     request_store (1.4.1)
       rack (>= 1.4)
-    rollbar (2.16.4)
-      multi_json
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
@@ -239,6 +237,8 @@ GEM
       activemodel (>= 4.2)
       elasticsearch (>= 5)
       hashie
+    sentry-raven (2.7.4)
+      faraday (>= 0.7.6, < 1.0)
     shellany (0.0.1)
     shoulda-matchers (3.1.2)
       activesupport (>= 4.0.0)
@@ -292,10 +292,10 @@ DEPENDENCIES
   puma (~> 3.11)
   rack-cors
   rails (~> 5.2.0)
-  rollbar
   rspec-rails
   rspec_junit_formatter
   searchkick
+  sentry-raven
   shoulda-matchers (~> 3.1)
   simplecov
   spring
