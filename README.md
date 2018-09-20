@@ -1,24 +1,38 @@
-# README
+# Open Brewery DB - REST API Server ![Travis CI Build Status](https://travis-ci.org/chrisjm/openbrewerydb-rest-api.svg?branch=master)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The Open Brewery DB API server is a simple Ruby on Rails app connected to a PostgreSQL DB server.
 
-Things you may want to cover:
+Related project: [Open Brewery DB](https://www.github.com/chrisjm/openbrewerydb-search)
 
-* Ruby version
+## Main Endpoint
 
-* System dependencies
+This is the code for the API server running at https://api.openbrewerydb.org/.
 
-* Configuration
+[Endpoint Documentation](https://www.openbrewerydb.org/)
 
-* Database creation
+## Dependencies
 
-* Database initialization
+- Ruby 2.4.2
+- PostgreSQL
+- Elastic Search (See [Searchkick's](https://github.com/ankane/searchkick) [Getting Started](https://github.com/ankane/searchkick#getting-started) section.)
 
-* How to run the test suite
+## Run locally
 
-* Services (job queues, cache servers, search engines, etc.)
+* Clone the repo `$ git clone https://github.com/chrisjm/openbrewerydb-rest-api`
+* Run `bundle install`
+* Run `bundle exec rails db:setup`
+* Run `bundle exec rails s`
+* The server will be running at `http://localhost:3000`
 
-* Deployment instructions
+**Note: There is no front-end for the API at this time.**
 
-* ...
+## Seed breweries dataset
+
+Included in the repo at `lib/import/brewers_association/` is scraped HTML from the Brewer's Association. This will be replaced soon with a full compressed SQL which will be easier
+
+`bundle exec rake breweries:import:brewers_association`
+
+## Run tests
+
+`bundle exec rake` or `bundle exec rspec`
+
