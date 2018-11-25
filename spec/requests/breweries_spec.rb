@@ -121,6 +121,30 @@ RSpec.describe "Breweries API", type: :request do
       end
     end
 
+    context "when by_tag param is passed" do
+      before do
+        create_list(:brewery_with_tags, 2)
+        create(:brewery)
+        get "/breweries", params: { by_tag: "dog-friendly" }
+      end
+
+      it "returns a filtered list of breweries" do
+        expect(json.size).to eq(2)
+      end
+    end
+
+    context "when by_tags param is passed" do
+      before do
+        create_list(:brewery_with_tags, 2)
+        create(:brewery)
+        get "/breweries", params: { by_tags: "patio,dog-friendly" }
+      end
+
+      it "returns a filtered list of breweries" do
+        expect(json.size).to eq(2)
+      end
+    end
+
     context "when sort param is passed" do
       before do
         create(
@@ -154,15 +178,23 @@ RSpec.describe "Breweries API", type: :request do
   end
 
   describe "GET /breweries/:id" do
-    let!(:breweries) { create_list(:brewery, 5) }
-    let(:brewery_id) { breweries.first.id }
+    let!(:brewery) { create(:brewery_with_tags) }
+    let(:brewery_id) { brewery.id }
 
     before { get "/breweries/#{brewery_id}" }
 
     context "when the record exists" do
       it "returns the brewery" do
         expect(json).not_to be_empty
-        expect(json["id"]).to eq(brewery_id)
+        expect(json["id"]).to eq(brewery.id)
+        expect(json["name"]).to eq(brewery.name)
+        expect(json["brewery_type"]).to eq(brewery.brewery_type)
+        expect(json["street"]).to eq(brewery.street)
+        expect(json["city"]).to eq(brewery.city)
+        expect(json["state"]).to eq(brewery.state)
+        expect(json["postal_code"]).to eq(brewery.postal_code)
+        expect(json["country"]).to eq(brewery.country)
+        expect(json["tag_list"]).to include("dog-friendly", "patio")
       end
 
       it "returns status code 200" do

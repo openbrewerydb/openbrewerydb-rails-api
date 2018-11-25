@@ -17,6 +17,10 @@ class BreweriesController < ApplicationController
   has_scope :by_state, only: :index
   # FILTER: /breweries?by_type=micro
   has_scope :by_type, only: :index
+  # FILTER: /breweries?by_tag=dog-friendly
+  has_scope :by_tag, only: :index
+  # FILTER: /breweries?by_tag=dog-friendly,patio
+  has_scope :by_tags, only: :index
 
   # GET /breweries
   def index
@@ -93,7 +97,8 @@ class BreweriesController < ApplicationController
         :phone,
         :country,
         :website_url,
-        :brewery_type
+        :brewery_type,
+        :tag_list
       )
     end
 

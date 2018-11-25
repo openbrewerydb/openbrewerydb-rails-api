@@ -14,4 +14,5 @@ class BrewerySerializer < ActiveModel::Serializer
   attribute :phone
   attribute :website_url
   attribute :updated_at
+  attribute :tag_list
 end
