@@ -1,4 +1,4 @@
-# Open Brewery DB - REST API Server ![Travis CI Build Status](https://travis-ci.org/chrisjm/openbrewerydb-rest-api.svg?branch=master)
+# Open Brewery DB - REST API Server ![Travis CI Build Status](https://travis-ci.org/chrisjm/openbrewerydb-api-server.svg?branch=master)
 
 The Open Brewery DB API server is a simple Ruby on Rails app connected to a PostgreSQL DB server.
 
