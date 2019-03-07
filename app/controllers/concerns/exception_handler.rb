@@ -15,7 +15,7 @@ module ExceptionHandler
       json_response({ message: exception.message }, :not_found)
     end
 
-    def service_unavailable()
+    def service_unavailable
       json_response(
         {
           message: 'There is an issue connecting to the ElasticSearch server. '\

@@ -31,6 +31,9 @@ module OpenbrewerydbRestApi
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
+    # Since this is a public API, we don't really care about IP spoofing.
+    config.action_dispatch.ip_spoofing_check = false
+
     # Cross Origin Resource Sharing (CORS) settings
     # Allow GET requests from any origin on any resource
     config.middleware.insert_before 0, Rack::Cors do

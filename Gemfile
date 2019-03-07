@@ -14,9 +14,6 @@ gem 'rack-cors'
 gem 'rails', '~> 5.2.0'
 gem 'sentry-raven'
 
-# Analytics
-gem 'ahoy_matey'
-
 # Elastic Search
 gem 'searchkick'
 

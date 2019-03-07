@@ -25,10 +25,6 @@ RSpec.describe "Breweries API", type: :request do
           "max-age=86400, public"
         )
       end
-
-      it "adds an event" do
-        expect(Ahoy::Event.all.size).to eq(1)
-      end
     end
 
     context "when invalid params are passed" do
@@ -101,12 +97,34 @@ RSpec.describe "Breweries API", type: :request do
 
     context "when by_state param is passed" do
       before do
-        create_list(:brewery, 3, state: "Everystate")
-        get "/breweries", params: { by_state: "everyState" }
+        create_list(:brewery, 2, state: "New York")
+        create(:brewery, state: "California")
+        create(:brewery, state: "Delaware")
       end
 
       it "returns a filtered list of breweries" do
-        expect(json.size).to eq(3)
+        get "/breweries", params: { by_state: "california" }
+        expect(json.size).to eq(1)
+      end
+
+      it "returns a filtered list of breweries with snake case" do
+        get "/breweries", params: { by_state: "new_york" }
+        expect(json.size).to eq(2)
+      end
+
+      it "does not return a filtered list of breweries with kebab case" do
+        get "/breweries", params: { by_state: "new-york" }
+        expect(json.size).to eq(0)
+      end
+
+      it "does not return a filtered list of breweries when abbreviation" do
+        get "/breweries", params: { by_state: "ny" }
+        expect(json.size).to eq(0)
+      end
+
+      it "does not return a filtered list of breweries when mispelled" do
+        get "/breweries", params: { by_state: "delwar" }
+        expect(json.size).to eq(0)
       end
     end
 

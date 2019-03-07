@@ -4,6 +4,7 @@ class ApplicationController < ActionController::API
   include Response
   include ExceptionHandler
 
+  # Sentry error reporting
   before_action :set_raven_context
 
   private

@@ -3,10 +3,6 @@
 class BreweriesController < ApplicationController
   SORT_ORDER = { '+': :asc, '-': :desc }.freeze
 
-  # Since this is an API, we're uninterested in tracking pageviews
-  skip_before_action :track_ahoy_visit
-  before_action :track_event
-
   before_action :set_brewery, only: %i[show update destroy]
 
   # FILTER: /breweries?by_city=san%20diego
@@ -19,7 +15,7 @@ class BreweriesController < ApplicationController
   has_scope :by_type, only: :index
   # FILTER: /breweries?by_tag=dog-friendly
   has_scope :by_tag, only: :index
-  # FILTER: /breweries?by_tag=dog-friendly,patio
+  # FILTER: /breweries?by_tags=dog-friendly,patio
   has_scope :by_tags, only: :index
 
   # GET /breweries
@@ -89,20 +85,12 @@ class BreweriesController < ApplicationController
 
     def brewery_params
       params.permit(
-        :name,
-        :street,
-        :city,
-        :state,
-        :postal_code,
-        :phone,
-        :country,
-        :website_url,
-        :brewery_type,
-        :tag_list
+        :name, :street, :city, :state, :postal_code, :phone, :country,
+        :website_url, :brewery_type, :tag_list
       )
     end
 
-    # A list of the param names that can be used for ordering the model list
+    # A list of the param names that can be used for ordering the model list.
     # For example it retrieves a list of breweries in descending order of type.
     # Within a specific type, names are ordered first
     #
@@ -129,9 +117,5 @@ class BreweriesController < ApplicationController
 
     def set_brewery
       @brewery = Brewery.find(params[:id])
-    end
-
-    def track_event
-      ahoy.track "#{controller_name}/#{action_name}", request.query_string
     end
 end
