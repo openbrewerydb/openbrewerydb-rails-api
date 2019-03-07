@@ -3,10 +3,6 @@
 class BreweriesController < ApplicationController
   SORT_ORDER = { '+': :asc, '-': :desc }.freeze
 
-  # Since this is an API, we're uninterested in tracking pageviews
-  skip_before_action :track_ahoy_visit
-  before_action :track_event
-
   before_action :set_brewery, only: %i[show update destroy]
 
   # FILTER: /breweries?by_city=san%20diego
@@ -129,9 +125,5 @@ class BreweriesController < ApplicationController
 
     def set_brewery
       @brewery = Brewery.find(params[:id])
-    end
-
-    def track_event
-      ahoy.track "#{controller_name}/#{action_name}", request.query_string
     end
 end

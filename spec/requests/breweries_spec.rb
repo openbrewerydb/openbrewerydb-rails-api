@@ -25,10 +25,6 @@ RSpec.describe "Breweries API", type: :request do
           "max-age=86400, public"
         )
       end
-
-      it "adds an event" do
-        expect(Ahoy::Event.all.size).to eq(1)
-      end
     end
 
     context "when invalid params are passed" do
