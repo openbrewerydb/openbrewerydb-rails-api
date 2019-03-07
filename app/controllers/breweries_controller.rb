@@ -15,7 +15,7 @@ class BreweriesController < ApplicationController
   has_scope :by_type, only: :index
   # FILTER: /breweries?by_tag=dog-friendly
   has_scope :by_tag, only: :index
-  # FILTER: /breweries?by_tag=dog-friendly,patio
+  # FILTER: /breweries?by_tags=dog-friendly,patio
   has_scope :by_tags, only: :index
 
   # GET /breweries
@@ -85,20 +85,12 @@ class BreweriesController < ApplicationController
 
     def brewery_params
       params.permit(
-        :name,
-        :street,
-        :city,
-        :state,
-        :postal_code,
-        :phone,
-        :country,
-        :website_url,
-        :brewery_type,
-        :tag_list
+        :name, :street, :city, :state, :postal_code, :phone, :country,
+        :website_url, :brewery_type, :tag_list
       )
     end
 
-    # A list of the param names that can be used for ordering the model list
+    # A list of the param names that can be used for ordering the model list.
     # For example it retrieves a list of breweries in descending order of type.
     # Within a specific type, names are ordered first
     #
