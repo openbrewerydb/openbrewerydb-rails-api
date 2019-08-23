@@ -1,36 +1,36 @@
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.5
   Include:
-    - 'config.ru'
-    - 'Gemfile'
-    - 'Guardfile'
-    - 'Rakefile'
+    - "config.ru"
+    - "Gemfile"
+    - "Guardfile"
+    - "Rakefile"
 
   Exclude:
-    - 'app/views/**/*'
-    - 'bin/*'
-    - 'db/schema.rb'
-    - 'db/migrate/*'
-    - 'log/**/*'
-    - 'node_modules/**/*'
-    - 'public/**/*'
-    - 'scripts/**/*'
-    - 'vendor/**/*'
-    - 'tmp/**/*'
-    - '.git/**/*'
+    - "app/views/**/*"
+    - "bin/*"
+    - "db/schema.rb"
+    - "db/migrate/*"
+    - "log/**/*"
+    - "node_modules/**/*"
+    - "public/**/*"
+    - "scripts/**/*"
+    - "vendor/**/*"
+    - "tmp/**/*"
+    - ".git/**/*"
 
 Documentation:
   Enabled: false
 
 IndentationConsistency:
-  EnforcedStyle: 'rails'
+  EnforcedStyle: "indented_internal_methods"
 
 Metrics/BlockLength:
   Exclude:
-    - 'Guardfile'
+    - "Guardfile"
 
 Naming/FileName:
   Exclude:
-    - 'Gemfile'
-    - 'Guardfile'
-    - 'Rakefile'
+    - "Gemfile"
+    - "Guardfile"
+    - "Rakefile"
