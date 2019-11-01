@@ -49,7 +49,7 @@ class BreweriesController < ApplicationController
     json_response(@breweries.map { |b| { id: b.id, name: b.name } })
   end
 
-  # GET /breweries/search
+  # GET /breweries/search_name
   def search_name
     expires_in 1.day, public: true
     @breweries = Brewery.search(
