@@ -9,6 +9,8 @@ class BreweriesController < ApplicationController
   has_scope :by_city, only: :index
   # FILTER: /breweries?by_name=almanac
   has_scope :by_name, only: :index
+  # FILTER: /breweries?by_zip=49507
+  has_scope :by_postal_code, only: :index
   # FILTER: /breweries?by_state=california
   has_scope :by_state, only: :index
   # FILTER: /breweries?by_type=micro
@@ -49,22 +51,11 @@ class BreweriesController < ApplicationController
     json_response(@breweries.map { |b| { id: b.id, name: b.name } })
   end
 
-  # GET /breweries/search_name
-  def search_name
+  # GET /breweries/search
+  def search
     expires_in 1.day, public: true
     @breweries = Brewery.search(
       params[:query],
-      page: params[:page],
-      per_page: params[:per_page]
-    )
-    json_response(@breweries)
-  end
-
-  # GET /breweries/search_postal_code
-  def search_postal_code
-    expires_in 1.day, public: true
-    @breweries = Brewery.search(
-      params[:postal_code],
       page: params[:page],
       per_page: params[:per_page]
     )
