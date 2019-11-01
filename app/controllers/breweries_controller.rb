@@ -50,10 +50,21 @@ class BreweriesController < ApplicationController
   end
 
   # GET /breweries/search
-  def search
+  def search_name
     expires_in 1.day, public: true
     @breweries = Brewery.search(
       params[:query],
+      page: params[:page],
+      per_page: params[:per_page]
+    )
+    json_response(@breweries)
+  end
+
+  # GET /breweries/search_postal_code
+  def search_postal_code
+    expires_in 1.day, public: true
+    @breweries = Brewery.search(
+      params[:postal_code],
       page: params[:page],
       per_page: params[:per_page]
     )
