@@ -26,12 +26,6 @@ This is the code for the API server running at https://api.openbrewerydb.org/.
 
 **Note: There is no front-end for the API at this time.**
 
-## Seed breweries dataset
-
-Included in the repo at `lib/import/brewers_association/` is scraped HTML from the Brewer's Association. This will be replaced soon with a full compressed SQL which will be easier
-
-`bundle exec rake breweries:import:brewers_association`
-
 ## Run tests
 
 `bundle exec rake` or `bundle exec rspec`
