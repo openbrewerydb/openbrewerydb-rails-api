@@ -12,7 +12,7 @@ This is the code for the API server running at https://api.openbrewerydb.org/.
 
 ## Dependencies
 
-- Ruby 2.4.2
+- Ruby 2.5.3
 - PostgreSQL
 - Elastic Search (See [Searchkick's](https://github.com/ankane/searchkick) [Getting Started](https://github.com/ankane/searchkick#getting-started) section.)
 
