@@ -9,8 +9,6 @@ class BreweriesController < ApplicationController
   has_scope :by_city, only: :index
   # FILTER: /breweries?by_name=almanac
   has_scope :by_name, only: :index
-  # FILTER: /breweries?by_zip=49507
-  has_scope :by_postal_code, only: :index
   # FILTER: /breweries?by_state=california
   has_scope :by_state, only: :index
   # FILTER: /breweries?by_type=micro
