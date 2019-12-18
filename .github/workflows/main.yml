@@ -1,0 +1,31 @@
+name: Main
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Ruby 2.5
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.5.x
+    - name: Setup PostgreSQL
+      uses: Harmon758/postgresql-action@v1.0.0
+      with:
+        postgresql version: 10.8
+        postgresql db: openbrewerydb_test
+        postgresql user: openbrewerydb_test
+        postgresql password: ""
+    - name: Build
+      run: |
+        gem install bundler
+        bundle install --jobs 4 --retry 3
+        bundle exec rails db:setup
+    - name: Test
+      env:
+        RAILS_ENV: test
+      run: bundle exec rake
