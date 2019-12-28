@@ -2,9 +2,9 @@
 
 Please check if your PR fulfills the following requirements:
 
-- [ ] Docs have been reviewed and added / updated if needed (for bug fixes / features)
-- [ ] Tests pass (`bundle exec rake`)
-- [ ] CHANGELOG.md updated
+- [x] Docs have been reviewed and added / updated if needed (for bug fixes / features)
+- [x] Tests pass (`bundle exec rake`)
+- [x] CHANGELOG.md updated
 
 ## Pull request type
 
@@ -14,7 +14,7 @@ Please check if your PR fulfills the following requirements:
 Please check the type of change your PR introduces:
 
 - [ ] Bugfix
-- [ ] Feature
+- [x] Feature
 - [ ] Code style update (formatting, renaming)
 - [ ] Refactoring (no functional changes, no api changes)
 - [ ] Build related changes
@@ -23,18 +23,18 @@ Please check the type of change your PR introduces:
 
 ## Current behavior
 
-<!-- Please describe the current behavior that you are modifying, or link to a relevant issue. -->
+Lacks ability to search by postal code 
 
-Issue Number: N/A
+Issue Number: 26
 
 ## New behavior
 
-<!-- Please describe the new behavior that you are introducing. -->
+Added ability to filter breweries 'by_postal' 
 
 ## Does this introduce a breaking change
 
 - [ ] Yes
-- [ ] No
+- [x] No
 
 <!-- If this introduces a breaking change, please describe the impact and migration path for existing applications below. -->
 
