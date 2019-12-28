@@ -163,6 +163,18 @@ RSpec.describe "Breweries API", type: :request do
       end
     end
 
+    context "when postal param is passed" do
+      before do
+        create_list(:brewery, 8)
+        create_list(:brewery, 3, postal_code: "44107")
+        get "/breweries", params: { by_postal: "44107" }
+      end
+
+      it "returns a filtered list of breweries" do
+        expect(json.size).to eq(3)
+      end
+    end
+    
     context "when sort param is passed" do
       before do
         create(
