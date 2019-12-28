@@ -20,6 +20,8 @@ class Brewery < ApplicationRecord
   scope :by_type, ->(type) { where('lower(brewery_type) = ?', type.downcase) }
   scope :by_tag, ->(tag) { tagged_with(tag.downcase) }
   scope :by_tags, ->(tags) { tagged_with(tags.downcase.split(',')) }
+  scope :by_postal, ->(postal) { where('postal_code LIKE ?', "#{postal}%") } 
+
 
   def address
     [street, city, state, country].join(', ')
