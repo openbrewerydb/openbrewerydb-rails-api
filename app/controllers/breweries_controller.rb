@@ -17,6 +17,8 @@ class BreweriesController < ApplicationController
   has_scope :by_tag, only: :index
   # FILTER: /breweries?by_tags=dog-friendly,patio
   has_scope :by_tags, only: :index
+  # FILTER /breweries?by_postal=44107
+  has_scope :by_postal, only: :index
 
   # GET /breweries
   def index
