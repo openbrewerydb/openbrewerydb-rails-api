@@ -163,6 +163,30 @@ RSpec.describe "Breweries API", type: :request do
       end
     end
 
+    context "when postal param is passed" do
+      before do
+        create_list(:brewery, 5)
+        create_list(:brewery, 3, postal_code: "44107")
+        create_list(:brewery, 2, postal_code: "44107-5555")
+        create_list(:brewery, 1, postal_code: "WC2N 5DU")
+      end
+
+      it "returns a filtered list of breweries for US postal codes" do
+        get "/breweries", params: { by_postal: "44107" }
+        expect(json.size).to eq(5)
+      end
+
+      it "returns a filtered list of breweries for US postal code ZIP+4" do
+        get "/breweries", params: { by_postal: "44107-5555" }
+        expect(json.size).to eq(2)
+      end
+
+      it "returns a filtered list of breweries for international postal codes" do
+        get "/breweries", params: { by_postal: "WC2N" }
+        expect(json.size).to eq(1)
+      end
+    end
+    
     context "when sort param is passed" do
       before do
         create(
