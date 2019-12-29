@@ -23,13 +23,13 @@ Please check the type of change your PR introduces:
 
 ## Current behavior
 
-Lacks ability to search by postal code 
+<!-- Please describe the current behavior that you are modifying, or link to a relevant issue. -->
 
 Issue Number: N/A
 
 ## New behavior
 
-Added ability to filter breweries 'by_postal' 
+<!-- Please describe the new behavior that you are introducing. -->
 
 ## Does this introduce a breaking change
 
