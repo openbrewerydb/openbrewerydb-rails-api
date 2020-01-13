@@ -18,9 +18,6 @@ gem 'rails', '~> 5.2.5'
 gem 'sentry-raven'
 gem 'geokit-rails'
 
-# Elastic Search
-gem 'searchkick'
-
 # Pagination
 gem 'kaminari'
 
