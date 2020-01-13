@@ -47,18 +47,11 @@ class BreweriesController < ApplicationController
 
     if DDOS_ATTACK
       @breweries = { message: "This endpoint is temporarily disabled." }
+      json_response(@breweries)
     else
-      @breweries = Brewery.search(
-        format_query(params[:query]),
-        fields: %w[name city state],
-        match: :word_start,
-        limit: 15,
-        load: false,
-        misspellings: { below: 2 }
-      )
-      @breweries = @breweries.map { |b| { id: b.id, name: b.name } }
+      @breweries = Brewery.autocomplete(params[:query]).page(1).per(15)
+      json_response(@breweries.map { |b| { id: b.id, name: b.name } })
     end
-    json_response(@breweries)
   end
 
   # GET /breweries/search
@@ -68,11 +61,10 @@ class BreweriesController < ApplicationController
     if DDOS_ATTACK
       @breweries = { message: "This endpoint is temporarily disabled." }
     else
-      @breweries = Brewery.search(
-        format_query(params[:query]),
-        page: params[:page],
-        per_page: params[:per_page]
-      )
+      @breweries =
+      PgSearch.multisearch(params[:query])
+              .page(params[:page])
+              .per(params[:per_page])
     end
 
     json_response(@breweries)

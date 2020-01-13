@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
 class Brewery < ApplicationRecord
+  include PgSearch::Model
+  multisearchable against: %i[name city state]
+  pg_search_scope :autocomplete, against: %i[name city state], using: {
+    tsearch: { prefix: true },
+    trigram: { threshold: 0.1 }
+  }
+
   # Elastic Search via Searchkick
-  searchkick word_start: %i[name city state]
+  # searchkick word_start: %i[name city state]
 
   geocoded_by :address
   after_validation :geocode
