@@ -1,3 +1,5 @@
+![Open Brewery DB Logo](OpenBreweryDBLogo.png)
+
 # 🍻 Official Open Brewery DB REST API Server 
 
 ![Github Actions Badge](https://github.com/chrisjm/openbrewerydb-rails-api/workflows/Build%20&%20Test%20Suite/badge.svg)
@@ -8,9 +10,9 @@ The Open Brewery DB API server is a Ruby on Rails app connected to a PostgreSQL 
 
 ## 📦 Dependencies
 
-- Ruby 2.6.5
-- PostgreSQL 9.4
-- Elastic Search (See [Searchkick's](https://github.com/ankane/searchkick) [Getting Started](https://github.com/ankane/searchkick#getting-started) section.) _Note: Elastic Search is likely to be removed in the future._
+* Ruby 2.6.5
+* PostgreSQL 9.4
+* Elastic Search (See [Searchkick's](https://github.com/ankane/searchkick) [Getting Started](https://github.com/ankane/searchkick#getting-started) section.) _Note: Elastic Search is likely to be removed in the future._
 
 ## 🏁 Getting Started
 
@@ -45,6 +47,6 @@ See `config/database.yml` for configuration.
 
 ## 🔗 Related
 
-* [Open Brewery DB Rails API](https://github.com/chrisjm/openbrewerydb-rails-api)
+* [Open Brewery DB Documenttion](https://github.com/chrisjm/openbrewerydb-gatsby)
 * [Open Brewery DB Dataset](https://github.com/openbrewerydb/openbrewerydb)
 
