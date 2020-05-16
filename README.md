@@ -1,32 +1,29 @@
-# Open Brewery DB - REST API Server ![Github Actions Badge](https://github.com/chrisjm/openbrewerydb-rails-api/workflows/Build%20&%20Test%20Suite/badge.svg)
+# 🍻 Official Open Brewery DB REST API Server 
 
-The Open Brewery DB API server is a Ruby on Rails API app connected to a PostgreSQL DB server.
+![Github Actions Badge](https://github.com/chrisjm/openbrewerydb-rails-api/workflows/Build%20&%20Test%20Suite/badge.svg)
 
-Related project: [Open Brewery DB](https://www.github.com/chrisjm/openbrewerydb-search)
-
-## Description
-
-This is the code for the [Open Brewery DB API server](https://api.openbrewerydb.org/).
+The Open Brewery DB API server is a Ruby on Rails app connected to a PostgreSQL DB server served at https://api.openbrewerydb.org.
 
 [Documentation](https://www.openbrewerydb.org/)
 
-## Dependencies
+## 📦 Dependencies
 
 - Ruby 2.6.5
 - PostgreSQL 9.4
-- Elastic Search (See [Searchkick's](https://github.com/ankane/searchkick) [Getting Started](https://github.com/ankane/searchkick#getting-started) section.)
+- Elastic Search (See [Searchkick's](https://github.com/ankane/searchkick) [Getting Started](https://github.com/ankane/searchkick#getting-started) section.) _Note: Elastic Search is likely to be removed in the future._
 
-## Run locally
+## 🏁 Getting Started
 
-- Clone the repo `$ git clone https://github.com/chrisjm/openbrewerydb-rest-api`
-- Run `bundle install`
-- Run `bundle exec rails db:setup`
-- Run `bundle exec rails s`
-- The server will be running at `http://localhost:3000`
+### Local Environement
 
-**Note: There is no front-end for the API at this time.**
+1. Clone the repo `$ git clone https://github.com/chrisjm/openbrewerydb-rest-api`
+2. Run `bundle install`
+3. Run `bundle exec rails db:setup`
+4. Run `bundle exec rails s`
 
-## Database setup
+The server will be running at `http://localhost:3000`
+
+### Database Expectations
 
 There are some assumptions for the local PostgreSQL service configuration.
 
@@ -42,12 +39,12 @@ All of these settings can be overwritten by setting environment variables in `.e
 
 See `config/database.yml` for configuration.
 
-## Seed breweries dataset
-
-Included in the repo at `lib/import/brewers_association/` is scraped HTML from the Brewer's Association. This will be replaced soon with a full compressed SQL which will be easier
-
-`bundle exec rake breweries:import:brewers_association`
-
-## Run tests
+### Running Tests
 
 `bundle exec rake` or `bundle exec rspec`
+
+## 🔗 Related
+
+* [Open Brewery DB Rails API](https://github.com/chrisjm/openbrewerydb-rails-api)
+* [Open Brewery DB Dataset](https://github.com/openbrewerydb/openbrewerydb)
+
