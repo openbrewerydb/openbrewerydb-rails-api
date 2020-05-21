@@ -54,3 +54,13 @@ For information on contributing to this project, please see the [contributing gu
 * [Open Brewery DB Website & Documentation](https://github.com/chrisjm/openbrewerydb-gatsby)
 * [Open Brewery DB Dataset](https://github.com/openbrewerydb/openbrewerydb)
 
+## 👾 Community
+
+* [Join the Newsletter](http://eepurl.com/dBjS0j)
+* [Join the Discord](https://discord.gg/SHtpdEN)
+
+## 📫 Feedback
+
+Any feedback, please [email me](mailto:chris@openbrewerydb.org). 
+
+Cheers! 🍻
