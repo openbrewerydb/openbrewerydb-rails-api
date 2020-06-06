@@ -11,7 +11,7 @@ gem 'has_scope'
 gem 'jwt'
 gem 'puma', '~> 3.12'
 gem 'rack-cors'
-gem 'rails', '~> 5.2.0'
+gem 'rails', '~> 5.2.4.3'
 gem 'sentry-raven'
 
 # Elastic Search
