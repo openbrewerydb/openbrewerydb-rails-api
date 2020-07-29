@@ -141,25 +141,29 @@ RSpec.describe "Breweries API", type: :request do
 
     context "when by_tag param is passed" do
       before do
-        create_list(:brewery_with_tags, 2)
+        # create_list(:brewery_with_tags, 2)
         create(:brewery)
         get "/breweries", params: { by_tag: "dog-friendly" }
       end
 
       it "returns a filtered list of breweries" do
-        expect(json.size).to eq(2)
+        # NOTE: Temporarily turning off tags due to DDoS (07/28/20)
+        # expect(json.size).to eq(2)
+        expect(json.size).to eq(1)
       end
     end
 
     context "when by_tags param is passed" do
       before do
-        create_list(:brewery_with_tags, 2)
+        # create_list(:brewery_with_tags, 2)
         create(:brewery)
         get "/breweries", params: { by_tags: "patio,dog-friendly" }
       end
 
       it "returns a filtered list of breweries" do
-        expect(json.size).to eq(2)
+        # NOTE: Temporarily turning off tags due to DDoS (07/28/20)
+        # expect(json.size).to eq(2)
+        expect(json.size).to eq(1)
       end
     end
 
@@ -186,7 +190,7 @@ RSpec.describe "Breweries API", type: :request do
         expect(json.size).to eq(1)
       end
     end
-    
+
     context "when sort param is passed" do
       before do
         create(
@@ -220,7 +224,8 @@ RSpec.describe "Breweries API", type: :request do
   end
 
   describe "GET /breweries/:id" do
-    let!(:brewery) { create(:brewery_with_tags) }
+    # let!(:brewery) { create(:brewery_with_tags) }
+    let!(:brewery) { create(:brewery) }
     let(:brewery_id) { brewery.id }
 
     before { get "/breweries/#{brewery_id}" }
@@ -236,7 +241,7 @@ RSpec.describe "Breweries API", type: :request do
         expect(json["state"]).to eq(brewery.state)
         expect(json["postal_code"]).to eq(brewery.postal_code)
         expect(json["country"]).to eq(brewery.country)
-        expect(json["tag_list"]).to include("dog-friendly", "patio")
+        # expect(json["tag_list"]).to include("dog-friendly", "patio")
       end
 
       it "returns status code 200" do
