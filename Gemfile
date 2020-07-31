@@ -4,7 +4,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.5'
 
 # Backend
-gem 'acts-as-taggable-on', '~> 6.0'
 gem 'bcrypt'
 gem 'geocoder'
 gem 'has_scope'

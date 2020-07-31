@@ -139,34 +139,6 @@ RSpec.describe "Breweries API", type: :request do
       end
     end
 
-    context "when by_tag param is passed" do
-      before do
-        # create_list(:brewery_with_tags, 2)
-        create(:brewery)
-        get "/breweries", params: { by_tag: "dog-friendly" }
-      end
-
-      it "returns a filtered list of breweries" do
-        # NOTE: Temporarily turning off tags due to DDoS (07/28/20)
-        # expect(json.size).to eq(2)
-        expect(json.size).to eq(1)
-      end
-    end
-
-    context "when by_tags param is passed" do
-      before do
-        # create_list(:brewery_with_tags, 2)
-        create(:brewery)
-        get "/breweries", params: { by_tags: "patio,dog-friendly" }
-      end
-
-      it "returns a filtered list of breweries" do
-        # NOTE: Temporarily turning off tags due to DDoS (07/28/20)
-        # expect(json.size).to eq(2)
-        expect(json.size).to eq(1)
-      end
-    end
-
     context "when postal param is passed" do
       before do
         create_list(:brewery, 5)
@@ -224,7 +196,6 @@ RSpec.describe "Breweries API", type: :request do
   end
 
   describe "GET /breweries/:id" do
-    # let!(:brewery) { create(:brewery_with_tags) }
     let!(:brewery) { create(:brewery) }
     let(:brewery_id) { brewery.id }
 

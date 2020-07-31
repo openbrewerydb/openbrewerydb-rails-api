@@ -14,7 +14,4 @@ class BrewerySerializer < ActiveModel::Serializer
   attribute :phone
   attribute :website_url
   attribute :updated_at
-
-  # NOTE: Temporarily turning off tags due to DDoS (07/28/20)
-  # attribute :tag_list
 end

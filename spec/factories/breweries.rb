@@ -11,12 +11,5 @@ FactoryBot.define do
     country { Faker::Address.country }
     brewery_type { %w[micro planning brewpub].sample }
     website_url { Faker::Internet.url }
-
-    factory :brewery_with_tags do
-      after(:create) do |brewery, _evaluator|
-        brewery.tag_list.add("dog-friendly", "patio")
-        brewery.save
-      end
-    end
   end
 end

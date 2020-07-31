@@ -2,6 +2,7 @@
 
 class BreweriesController < ApplicationController
   SORT_ORDER = { '+': :asc, '-': :desc }.freeze
+  DDOS_ATTACK = ENV['DDOS_ATTACK'] == 'true'
 
   before_action :set_brewery, only: %i[show update destroy]
 
@@ -15,12 +16,6 @@ class BreweriesController < ApplicationController
   has_scope :by_type, only: :index
   # FILTER /breweries?by_postal=44107
   has_scope :by_postal, only: :index
-
-  # NOTE: Temporarily turning off tags due to DDoS (07/28/20)
-  # FILTER: /breweries?by_tag=dog-friendly
-  # has_scope :by_tag, only: :index
-  # FILTER: /breweries?by_tags=dog-friendly,patio
-  # has_scope :by_tags, only: :index
 
   # GET /breweries
   def index
@@ -42,27 +37,36 @@ class BreweriesController < ApplicationController
   # GET /breweries/autocomplete
   def autocomplete
     expires_in 1.day, public: true
-    @breweries = Brewery.search(
-      params[:query],
-      fields: %w[name city state],
-      match: :word_start,
-      limit: 15,
-      load: false,
-      misspellings: { below: 2 }
-    )
+
+    if DDOS_ATTACK
+      @breweries = { message: "This endpoint is temporarily disabled." }
+    else
+      @breweries = Brewery.search(
+        params[:query],
+        fields: %w[name city state],
+        match: :word_start,
+        limit: 15,
+        load: false,
+        misspellings: { below: 2 }
+      )
+    end
     json_response(@breweries.map { |b| { id: b.id, name: b.name } })
   end
 
   # GET /breweries/search
   def search
     expires_in 1.day, public: true
-    # NOTE: Temporarily removing endpoint due to DDoS (07/28/20)
-    @breweries = { message: "This endpoint is temporarily disabled." }
-    # @breweries = Brewery.search(
-    #   params[:query],
-    #   page: params[:page],
-    #   per_page: params[:per_page]
-    # )
+
+    if DDOS_ATTACK
+      @breweries = { message: "This endpoint is temporarily disabled." }
+    else
+      @breweries = Brewery.search(
+        params[:query],
+        page: params[:page],
+        per_page: params[:per_page]
+      )
+    end
+
     json_response(@breweries)
   end
 
@@ -93,8 +97,6 @@ class BreweriesController < ApplicationController
       params.permit(
         :name, :street, :city, :state, :postal_code, :phone, :country,
         :website_url, :brewery_type
-        # NOTE: Temporarily turning off tags due to DDoS (07/28/20)
-        # , :tag_list
       )
     end
 

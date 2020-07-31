@@ -1,6 +1,6 @@
 ![Open Brewery DB Logo](OpenBreweryDBLogo.png)
 
-# 🍻 Official Open Brewery DB REST API Server 
+# 🍻 Official Open Brewery DB REST API Server
 
 ![Github Actions Badge](https://github.com/chrisjm/openbrewerydb-rails-api/workflows/Build%20&%20Test%20Suite/badge.svg)
 
@@ -61,6 +61,6 @@ For information on contributing to this project, please see the [contributing gu
 
 ## 📫 Feedback
 
-Any feedback, please [email me](mailto:chris@openbrewerydb.org). 
+Any feedback, please [email me](mailto:chris@openbrewerydb.org).
 
 Cheers! 🍻
