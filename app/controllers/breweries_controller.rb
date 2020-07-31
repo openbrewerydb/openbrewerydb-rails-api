@@ -49,8 +49,9 @@ class BreweriesController < ApplicationController
         load: false,
         misspellings: { below: 2 }
       )
+      @breweries = @breweries.map { |b| { id: b.id, name: b.name } }
     end
-    json_response(@breweries.map { |b| { id: b.id, name: b.name } })
+    json_response(@breweries)
   end
 
   # GET /breweries/search
