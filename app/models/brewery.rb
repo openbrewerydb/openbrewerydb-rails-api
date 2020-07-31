@@ -1,12 +1,8 @@
 # frozen_string_literal: true
 
 class Brewery < ApplicationRecord
-  # NOTE: Temporarily turning off tags due to DDoS (07/28/20)
-  # acts_as_taggable
-
-  # NOTE: Temporarily turning off searching due to DDoS (07/28/20)
   # Elastic Search via Searchkick
-  # searchkick word_start: %i[name city state]
+  searchkick word_start: %i[name city state]
 
   geocoded_by :address
   after_validation :geocode
@@ -21,10 +17,6 @@ class Brewery < ApplicationRecord
   scope :by_state, ->(state) { where('lower(state) LIKE ?', state.downcase) }
   scope :by_type, ->(type) { where('lower(brewery_type) = ?', type.downcase) }
   scope :by_postal, ->(postal) { where('postal_code LIKE ?', "#{postal}%") }
-
-  # NOTE: Temporarily turning off tags due to DDoS (07/28/20)
-  # scope :by_tag, ->(tag) { tagged_with(tag.downcase) }
-  # scope :by_tags, ->(tags) { tagged_with(tags.downcase.split(',')) }
 
   def address
     [street, city, state, country].join(', ')
