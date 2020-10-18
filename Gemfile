@@ -3,6 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.5'
 
+# Analytics
+gem 'ahoy_matey'
+
 # Backend
 gem 'bcrypt'
 gem 'geocoder'
