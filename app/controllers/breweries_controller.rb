@@ -5,6 +5,7 @@ class BreweriesController < ApplicationController
   DDOS_ATTACK = ENV['DDOS_ATTACK'] == 'true'
 
   before_action :set_brewery, only: %i[show update destroy]
+  before_action :track_analytics
 
   # FILTER: /breweries?by_city=san%20diego
   has_scope :by_city, only: :index
@@ -128,5 +129,9 @@ class BreweriesController < ApplicationController
 
     def set_brewery
       @brewery = Brewery.find(params[:id])
+    end
+
+    def track_analytics
+      ahoy.track self.action_name, params
     end
 end
