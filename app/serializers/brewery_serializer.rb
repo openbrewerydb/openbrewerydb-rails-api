@@ -5,8 +5,11 @@ class BrewerySerializer < ActiveModel::Serializer
   attribute :name
   attribute :brewery_type
   attribute :street
+  attribute :address_2
+  attribute :address_3
   attribute :city
   attribute :state
+  attribute :county_province
   attribute :postal_code
   attribute :country
   attribute :longitude
