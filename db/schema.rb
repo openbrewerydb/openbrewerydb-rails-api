@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_15_051820) do
+ActiveRecord::Schema.define(version: 2020_10_18_223536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -52,6 +52,9 @@ ActiveRecord::Schema.define(version: 2020_09_15_051820) do
     t.string "country"
     t.decimal "longitude"
     t.decimal "latitude"
+    t.string "address_2"
+    t.string "address_3"
+    t.string "county_province"
   end
 
   create_table "pg_search_documents", force: :cascade do |t|
