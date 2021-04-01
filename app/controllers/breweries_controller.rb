@@ -19,8 +19,8 @@ class BreweriesController < ApplicationController
   has_scope :by_postal, only: :index
   # FILTER /breweries?by_ids=1,2,3
   has_scope :by_ids, only: :index
-  # FILTER /breweries?by_distance=38.8977,77.0365
-  has_scope :by_distance, only: :index
+  # FILTER /breweries?by_dist=38.8977,77.0365
+  has_scope :by_dist, only: :index
 
   # GET /breweries
   def index
