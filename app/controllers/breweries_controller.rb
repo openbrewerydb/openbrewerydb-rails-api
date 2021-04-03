@@ -47,7 +47,7 @@ class BreweriesController < ApplicationController
       @breweries = { message: "This endpoint is temporarily disabled." }
     else
       @breweries = Brewery.search(
-        params[:query],
+        format_query(params[:query]),
         fields: %w[name city state],
         match: :word_start,
         limit: 15,
@@ -67,7 +67,7 @@ class BreweriesController < ApplicationController
       @breweries = { message: "This endpoint is temporarily disabled." }
     else
       @breweries = Brewery.search(
-        params[:query],
+        format_query(params[:query]),
         page: params[:page],
         per_page: params[:per_page]
       )
@@ -137,5 +137,10 @@ class BreweriesController < ApplicationController
 
     def track_analytics
       ahoy.track self.action_name, params
+    end
+
+    # Allow _ to be a separator
+    def format_query(query)
+      return query.gsub('_', ' ')
     end
 end
