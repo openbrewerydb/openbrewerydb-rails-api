@@ -2,6 +2,7 @@
 
 class BrewerySerializer < ActiveModel::Serializer
   attribute :id
+  attribute :obdb_id
   attribute :name
   attribute :brewery_type
   attribute :street
