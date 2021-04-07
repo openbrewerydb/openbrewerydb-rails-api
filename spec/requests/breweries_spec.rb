@@ -83,6 +83,18 @@ RSpec.describe "Breweries API", type: :request do
       end
     end
 
+    context "when by_country param is passed" do
+      before do
+        create_list(:brewery, 3)
+        create_list(:brewery, 2, country: "England")
+        get "/breweries", params: { by_country: "England" }
+      end
+
+      it "returns a filtered list of breweries" do
+        expect(json.size).to eq(2)
+      end
+    end
+
     context "when by_name param is passed" do
       before do
         create_list(:brewery, 8)

@@ -7,6 +7,8 @@ class BreweriesController < ApplicationController
   before_action :set_brewery, only: %i[show update destroy]
   before_action :track_analytics
 
+  # FILTER: /breweries?by_country=scotland
+  has_scope :by_country, only: :index
   # FILTER: /breweries?by_city=san%20diego
   has_scope :by_city, only: :index
   # FILTER: /breweries?by_name=almanac

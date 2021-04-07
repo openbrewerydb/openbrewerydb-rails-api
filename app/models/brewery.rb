@@ -16,6 +16,7 @@ class Brewery < ApplicationRecord
   validates :country, presence: true
 
   scope :by_city, ->(city) { where('lower(city) LIKE ?', "%#{city.downcase}%") }
+  scope :by_country, ->(country) { where('lower(country) = ?', country.downcase) }
   scope :by_name, ->(name) { where('lower(name) LIKE ?', "%#{name.downcase}%") }
   scope :by_state, ->(state) { where('lower(state) LIKE ?', state.downcase) }
   scope :by_type, ->(type) { where('lower(brewery_type) = ?', type.downcase) }
