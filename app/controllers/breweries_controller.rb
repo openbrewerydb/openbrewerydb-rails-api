@@ -4,25 +4,25 @@ class BreweriesController < ApplicationController
   SORT_ORDER = { '+': :asc, '-': :desc }.freeze
   DDOS_ATTACK = ENV['DDOS_ATTACK'] == 'true'
 
-  before_action :set_brewery, only: %i[show update destroy]
+  before_action :set_brewery, only: %i[show]
   before_action :track_analytics
 
-  # FILTER: /breweries?by_country=scotland
-  has_scope :by_country, only: :index
   # FILTER: /breweries?by_city=san%20diego
   has_scope :by_city, only: :index
+  # FILTER: /breweries?by_country=scotland
+  has_scope :by_country, only: :index
+  # FILTER /breweries?by_dist=38.8977,77.0365
+  has_scope :by_dist, only: :index
+  # FILTER /breweries?by_ids=1,2,3
+  has_scope :by_ids, only: :index
   # FILTER: /breweries?by_name=almanac
   has_scope :by_name, only: :index
   # FILTER: /breweries?by_state=california
   has_scope :by_state, only: :index
-  # FILTER: /breweries?by_type=micro
-  has_scope :by_type, only: :index
   # FILTER /breweries?by_postal=44107
   has_scope :by_postal, only: :index
-  # FILTER /breweries?by_ids=1,2,3
-  has_scope :by_ids, only: :index
-  # FILTER /breweries?by_dist=38.8977,77.0365
-  has_scope :by_dist, only: :index
+  # FILTER: /breweries?by_type=micro
+  has_scope :by_type, only: :index
 
   # GET /breweries
   def index
@@ -62,7 +62,7 @@ class BreweriesController < ApplicationController
       @breweries = { message: "This endpoint is temporarily disabled." }
     else
       @breweries =
-      PgSearch.multisearch(params[:query])
+      PgSearch.multisearch(format_query(params[:query]))
               .page(params[:page])
               .per(params[:per_page])
     end
@@ -70,35 +70,7 @@ class BreweriesController < ApplicationController
     json_response(@breweries)
   end
 
-  # POST /breweries
-  # NOTE: Disabled via /config/routes.rb
-  def create
-    @brewery = Brewery.create!(brewery_params)
-    json_response(@brewery, :created)
-  end
-
-  # PUT /breweries/:id
-  # NOTE: Disabled via /config/routes.rb
-  def update
-    @brewery.update(brewery_params)
-    head :no_content
-  end
-
-  # DELETE /breweries/:id
-  # NOTE: Disabled  via /config/routes.rb
-  def destroy
-    @brewery.destroy
-    head :no_content
-  end
-
   private
-
-    def brewery_params
-      params.permit(
-        :name, :street, :city, :state, :postal_code, :phone, :country,
-        :website_url, :brewery_type
-      )
-    end
 
     # A list of the param names that can be used for ordering the model list.
     # For example it retrieves a list of breweries in descending order of type.
