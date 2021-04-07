@@ -14,6 +14,7 @@ class Brewery < ApplicationRecord
   validates :city, presence: true
   validates :state, presence: true
   validates :country, presence: true
+  validates :obdb_id, presence: true, uniqueness: true
 
   scope :by_city, ->(city) { where('lower(city) LIKE ?', "%#{city.downcase}%") }
   scope :by_country, ->(country) { where('lower(country) = ?', country.downcase) }

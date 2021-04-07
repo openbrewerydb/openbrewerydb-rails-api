@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_19_042853) do
+ActiveRecord::Schema.define(version: 2021_04_07_030557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -110,6 +110,9 @@ ActiveRecord::Schema.define(version: 2020_10_19_042853) do
     t.string "address_2"
     t.string "address_3"
     t.string "county_province"
+    t.string "obdb_id"
+    t.text "tags"
+    t.index ["obdb_id"], name: "breweries_obdb_id_key", unique: true
   end
 
   create_table "pg_search_documents", force: :cascade do |t|
