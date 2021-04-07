@@ -207,7 +207,7 @@ RSpec.describe "Breweries API", type: :request do
     end
   end
 
-  describe "GET /breweries/search", :focus do
+  describe "GET /breweries/search" do
     before do
       create_list(
         :brewery,
@@ -222,6 +222,13 @@ RSpec.describe "Breweries API", type: :request do
         name: "Jane's Brewing Co. - Alb, NM",
         state: "New Mexico",
         city: "Albuquerque"
+      )
+      create_list(
+        :brewery,
+        1,
+        name: "Old English Brewery",
+        county_province: "East Sussex",
+        country: "England"
       )
       create_list(:brewery, 1, state: "Ohio")
       create_list(:brewery, 1, city: "Athens", state: "Ohio")
@@ -265,15 +272,15 @@ RSpec.describe "Breweries API", type: :request do
         expect(json.size).to eq(3)
       end
 
-      it "returns the correct number of breweries for 'mexico'" do
-        get "/breweries/search", params: { query: "mexico" }
+      it "returns the correct number of breweries for 'sussex'" do
+        get "/breweries/search", params: { query: "sussex" }
         expect(json).not_to be_empty
         expect(json.size).to eq(1)
       end
     end
   end
 
-  describe "GET /breweries/autocomplete", :focus do
+  describe "GET /breweries/autocomplete" do
     before do
       create_list(
         :brewery,
