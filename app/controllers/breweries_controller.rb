@@ -107,6 +107,6 @@ class BreweriesController < ApplicationController
 
     # Allow _ to be a separator
     def format_query(query)
-      return query.gsub('_', ' ')
+      return query.gsub('_', ' ') unless query.nil?
     end
 end
