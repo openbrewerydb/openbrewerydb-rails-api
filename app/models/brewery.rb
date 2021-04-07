@@ -2,8 +2,8 @@
 
 class Brewery < ApplicationRecord
   include PgSearch::Model
-  multisearchable against: %i[name city state]
-  pg_search_scope :autocomplete, against: %i[name city state], using: {
+  multisearchable against: %i[name city state county_province country]
+  pg_search_scope :autocomplete, against: %i[name city state county_province country], using: {
     tsearch: { prefix: true },
     trigram: { threshold: 0.1 }
   }
