@@ -14,7 +14,7 @@ gem 'jwt'
 gem 'puma', '~> 3.12'
 gem 'rack', '>= 2.2.3'
 gem 'rack-cors'
-gem 'rails', '~> 5.2.4.4'
+gem 'rails', '~> 5.2.5'
 gem 'sentry-raven'
 gem 'geokit-rails'
 
