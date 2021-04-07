@@ -46,10 +46,13 @@ class BreweriesController < ApplicationController
     expires_in 1.day, public: true
 
     if DDOS_ATTACK
-      @breweries = { message: "This endpoint is temporarily disabled." }
+      @breweries = { message: 'This endpoint is temporarily disabled.' }
       json_response(@breweries)
     else
-      @breweries = Brewery.autocomplete(params[:query]).page(1).per(15)
+      # Ignore pagination for autocomplete
+      @breweries = Brewery.autocomplete(
+        format_query(params[:query])
+      ).page(1).per(15)
       json_response(@breweries.map { |b| { id: b.id, name: b.name } })
     end
   end
@@ -58,14 +61,13 @@ class BreweriesController < ApplicationController
   def search
     expires_in 1.day, public: true
 
-    if DDOS_ATTACK
-      @breweries = { message: "This endpoint is temporarily disabled." }
-    else
-      @breweries =
-      PgSearch.multisearch(format_query(params[:query]))
-              .page(params[:page])
-              .per(params[:per_page])
-    end
+    @breweries = if DDOS_ATTACK
+                   { message: 'This endpoint is temporarily disabled.' }
+                 else
+                   Brewery.search_breweries(
+                     format_query(params[:query])
+                   ).page(params[:page]).per(params[:per_page])
+                 end
 
     json_response(@breweries)
   end
@@ -102,7 +104,7 @@ class BreweriesController < ApplicationController
     end
 
     def track_analytics
-      ahoy.track self.action_name, params
+      ahoy.track action_name, params
     end
 
     # Allow _ to be a separator
