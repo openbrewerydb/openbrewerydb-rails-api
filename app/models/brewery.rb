@@ -24,6 +24,7 @@ class Brewery < ApplicationRecord
   scope :by_postal, ->(postal) { where('postal_code LIKE ?', "#{postal}%") }
   scope :by_ids, ->(ids) { where(id: ids.split(",")) }
   scope :by_dist, ->(coords) { by_distance(:origin => coords.split(',').map { |coord| coord.to_f }.first(2)) }
+  scope :exclude_types, ->(types) { where('lower(brewery_type) NOT IN (?)', types.split(",") ) }
 
   def address
     [street, city, state, country].join(', ')

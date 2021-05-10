@@ -151,6 +151,24 @@ RSpec.describe "Breweries API", type: :request do
       end
     end
 
+    context "when exclude_types param is passed" do
+      before do
+        create_list(:brewery, 2, brewery_type: "micro")
+        create_list(:brewery, 2, brewery_type: "nano")
+        create_list(:brewery, 3, brewery_type: "planned")
+      end
+      
+      it "returns a filtered list of breweries - single" do
+        get "/breweries", params: {exclude_types: "micro"}
+        expect(json.size).to eq(5)
+      end
+
+      it "returns a filtered list of breweries - multiple" do
+        get "/breweries", params: {exclude_types: "micro,nano"}
+        expect(json.size).to eq(3)
+      end
+    end
+
     context "when postal param is passed" do
       before do
         create_list(:brewery, 5)
