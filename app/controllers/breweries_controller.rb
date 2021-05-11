@@ -23,6 +23,8 @@ class BreweriesController < ApplicationController
   has_scope :by_ids, only: :index
   # FILTER /breweries?by_dist=38.8977,77.0365
   has_scope :by_dist, only: :index
+  # FILTER /breweries?exclude_types=micro,nano
+  has_scope :exclude_types, only: :index
 
   # GET /breweries
   def index

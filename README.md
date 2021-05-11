@@ -18,7 +18,7 @@ The Open Brewery DB API server is a Ruby on Rails app connected to a PostgreSQL 
 
 ### Local Environement
 
-1. Clone the repo `$ git clone https://github.com/chrisjm/openbrewerydb-rest-api`
+1. Clone the repo `$ git clone https://github.com/openbrewerydb/openbrewerydb-rest-api`
 2. Run `bundle install`
 3. Run `bundle exec rails db:setup`
 4. Run `bundle exec rails s`
