@@ -41,6 +41,14 @@ All of these settings can be overwritten by setting environment variables in `.e
 
 See `config/database.yml` for configuration.
 
+### Adding data to local database
+Currently, the `db:setup` task does not migrate the brewery data. This can be done manually if you grab the data from [openbrewerydb](https://github.com/openbrewerydb/openbrewerydb).
+- Open postgresql shell with `psql <your user>`
+- `\c openbrewerydb_development` to connect to the database
+- Make sure the `breweries` table exists. `\dt`
+- `\copy breweries(obdb_id,name,brewery_type,street,address_2,address_3,city,state,county_province,postal_code,website_url,phone,created_at,updated_at,country,longitude,latitude,tags) from '<path to CSV data file>' DELIMITER ',' CSV HEADER
+- Run `SELECT * FROM breweries LIMIT 10;` to make sure data loaded
+
 ### Running Tests
 
 `bundle exec rake` or `bundle exec rspec`
