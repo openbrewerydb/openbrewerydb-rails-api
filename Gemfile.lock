@@ -188,7 +188,8 @@ GEM
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    puma (3.12.6)
+    puma (4.3.8)
+      nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-cors (1.1.1)
@@ -307,7 +308,7 @@ DEPENDENCIES
   kaminari
   listen (>= 3.0.5, < 3.2)
   pg
-  puma (~> 3.12)
+  puma (~> 4.3)
   rack (>= 2.2.3)
   rack-cors
   rails (~> 5.2.6)
