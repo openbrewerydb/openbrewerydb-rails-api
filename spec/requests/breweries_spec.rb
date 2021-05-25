@@ -210,7 +210,7 @@ RSpec.describe "Breweries API", type: :request do
           name: "Circle 9 Brewing",
           brewery_type: "micro"
         )
-        get "/breweries", params: { sort: "type,-name" }
+        get "/breweries", params: { sort: "type,name:desc" }
       end
 
       it "returns a sorted list of breweries" do

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class BreweriesController < ApplicationController
-  SORT_ORDER = { '+': :asc, '-': :desc }.freeze
+  # SORT_ORDER = { 'asc': :asc, 'desc': :desc }.freeze
+  SORT_ORDER = %w[ asc desc ].freeze
   DDOS_ATTACK = ENV['DDOS_ATTACK'] == 'true'
 
   before_action :set_brewery, only: %i[show update destroy]
@@ -125,10 +126,11 @@ class BreweriesController < ApplicationController
       sorted_params = params[:sort].split(',')
 
       sorted_params.each do |attr|
-        sort_sign = /^[+-]/.match?(attr) ? attr.slice!(0) : '+'
+        attr, sort_m = attr.split(':')
+        sort_method = SORT_ORDER.include?(sort_m) ? sort_m : 'asc'
         attr = 'brewery_type' if attr == 'type'
         if Brewery.attribute_names.include?(attr)
-          ordering[attr] = SORT_ORDER[sort_sign.to_sym]
+          ordering[attr] = sort_method.to_sym 
         end
       end
 
