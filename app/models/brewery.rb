@@ -12,7 +12,7 @@ class Brewery < ApplicationRecord
 
   validates :name, presence: true
   validates :city, presence: true
-  validates :state, presence: true
+  validates :state, presence: true, if: :country_us?
   validates :country, presence: true
   validates :obdb_id, presence: true, uniqueness: true
 
@@ -28,5 +28,9 @@ class Brewery < ApplicationRecord
 
   def address
     [street, city, state, country].join(', ')
+  end
+
+  def country_us?
+    country == 'United States'
   end
 end

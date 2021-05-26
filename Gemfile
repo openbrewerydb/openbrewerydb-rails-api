@@ -17,6 +17,7 @@ gem 'rack-cors'
 gem 'rails', '~> 5.2.6'
 gem 'sentry-raven'
 gem 'geokit-rails'
+gem 'faraday', '~> 1.4.0'
 
 # Elastic Search
 gem 'searchkick'

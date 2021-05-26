@@ -2,9 +2,9 @@
 
 namespace :breweries do
   namespace :import do
-    desc 'Import Brewers Association data'
-    task brewers_association: :environment do
-      Import::BrewersAssociation.perform
+    desc 'Import OpenBreweryDb data'
+    task breweries: :environment do
+      Import::Breweries.perform
     end
   end
 
