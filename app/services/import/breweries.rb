@@ -24,7 +24,7 @@ module Import
       
       puts "\n!!!!! DRY RUN !!!!!\nNO DATA WILL BE IMPORTED\n" if @dry_run
       
-      if ENV['UPDATE'] == false
+      if ENV['TRUNCATE'].upcase == 'TRUE'
         import_breweries_sql
       else
         puts "Updating breweries\n"
@@ -43,7 +43,7 @@ module Import
     private
 
     def import_breweries
-      puts "#{Time.now} : Getting raw breweries file".blue
+      puts "#{Time.now} : Getting raw breweries file - json".blue
       connection = Faraday::Connection.new @path_to_json
       response = connection.get(nil)
       body = JSON.parse(response.body.as_json, symbolize_names: true)
@@ -55,8 +55,8 @@ module Import
         abort("Could not get breweries. Exiting task")
       end
 
-      breweries = body.filter_map do |brewery|
-        if Brewery.where(obdb_id: brewery.dig(:obdb_id))
+      breweries = body.map do |brewery|
+        if Brewery.where(obdb_id: brewery.dig(:obdb_id)).present?
           @counter[:skipped] += 1
           next
         end
@@ -82,30 +82,47 @@ module Import
           tags: brewery.dig(:tags)
         }
       end
-      
+
+      if breweries.empty?
+        puts "#{Time.now} : No breweries to map, exiting"
+        return
+      end
+
+      # filter out nils. In ruby-2.7, we can use filter_map instead of map above.
+      breweries.filter! { |brewery| brewery.present? }
+
       puts "#{Time.now} : Mapped breweries".green
-      puts "#{Time.now} : Saving breweries".blue
-      ActiveRecord::Base.transaction do
-        new_breweries = Brewery.create!(breweries)
+      
+      if @dry_run
+        @counter[:skipped] += breweries.size 
+      else
+        puts "#{Time.now} : Saving breweries".blue
+        ActiveRecord::Base.transaction do
+          new_breweries = Brewery.create!(breweries)
+        end
       end
     end
 
     def import_breweries_sql
-      puts "#{Time.now} : Getting raw breweries file".blue
+      puts "#{Time.now} : Getting raw breweries file - sql".blue
       connection = Faraday::Connection.new @path_to_sql
       response = connection.get(nil)
       puts "#{Time.now} : Got file: #{response.status}".blue
 
-      puts "#{Time.now} : Truncating table before import".blue
-      ActiveRecord::Base.connection.truncate(:breweries)
-      puts "#{Time.now} : # of Breweries: #{Brewery.count}".green
+      unless @dry_run
+        puts "#{Time.now} : Truncating table before import".blue
+        ActiveRecord::Base.connection.truncate(:breweries)
+      end
+      puts "#{Time.now} : # of Breweries (before import): #{Brewery.count}".green
       
-      puts "#{Time.now} : Inserting to Breweries by SQL"
-      ActiveRecord::Base.connection.insert(response.body.to_s)
+      unless @dry_run
+        puts "#{Time.now} : Inserting to Breweries by SQL"
+        ActiveRecord::Base.connection.insert(response.body.to_s)
+      end
 
       # check db
       @counter[:added] = Brewery.count
-      puts "#{Time.now} : # of Breweries: #{@counter[:added]}".green
+      puts "#{Time.now} : # of Breweries (after import): #{@counter[:added]}".green
     end
     
     def output_summary

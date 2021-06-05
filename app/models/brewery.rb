@@ -2,10 +2,9 @@
 
 class Brewery < ApplicationRecord
   # Elastic Search via Searchkick
-  searchkick word_start: %i[name city state]
+  searchkick
 
   geocoded_by :address
-  # after_validation :geocode
 
   acts_as_mappable :lat_column_name => :latitude,
                    :lng_column_name => :longitude
@@ -32,5 +31,13 @@ class Brewery < ApplicationRecord
 
   def country_us?
     country == 'United States'
+  end
+
+  def search_data
+    {
+      name: name,
+      city: city,
+      state: state
+    }
   end
 end
