@@ -20,8 +20,9 @@ The Open Brewery DB API server is a Ruby on Rails app connected to a PostgreSQL 
 
 1. Clone the repo `$ git clone https://github.com/openbrewerydb/openbrewerydb-rest-api`
 2. Run `bundle install`
-3. Run database import. See [Data Import Task](#Data-Import-task)
-4. Run `bundle exec rails s`
+3. Run `bundle exec rails db:setup`
+4. Run database import. See [Data Import Task](#Data-Import-task)
+5. Run `bundle exec rails s`
 
 
 The server will be running at `http://localhost:3000`

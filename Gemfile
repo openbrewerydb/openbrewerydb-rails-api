@@ -38,7 +38,6 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'rspec-rails'
   gem 'guard-rspec'
-  gem 'active_record_doctor'
 end
 
 group :test do

@@ -29,8 +29,6 @@ GEM
       activemodel (>= 4.1, < 6.2)
       case_transform (>= 0.2)
       jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
-    active_record_doctor (1.8.0)
-      activerecord (>= 4.2.0)
     activejob (5.2.6)
       activesupport (= 5.2.6)
       globalid (>= 0.3.6)
@@ -292,7 +290,6 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.10.0)
-  active_record_doctor
   ahoy_matey
   bcrypt
   bootsnap (>= 1.1.0)

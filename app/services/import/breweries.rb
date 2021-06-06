@@ -24,7 +24,7 @@ module Import
       
       puts "\n!!!!! DRY RUN !!!!!\nNO DATA WILL BE IMPORTED\n" if @dry_run
       
-      if ENV['TRUNCATE'].upcase == 'TRUE'
+      if ENV['TRUNCATE']&.upcase == 'TRUE'
         import_breweries_sql
       else
         puts "Updating breweries\n"
@@ -45,7 +45,7 @@ module Import
     def import_breweries
       puts "#{Time.now} : Getting raw breweries file - json".blue
       connection = Faraday::Connection.new @path_to_json
-      response = connection.get(nil)
+      response = connection.get
       body = JSON.parse(response.body.as_json, symbolize_names: true)
       puts "#{Time.now} : Got file: #{response.status}".blue
       puts "#{Time.now} : Got #{body.size} breweries".blue
@@ -94,6 +94,7 @@ module Import
       puts "#{Time.now} : Mapped breweries".green
       
       if @dry_run
+        @counter[:added] = 0 
         @counter[:skipped] += breweries.size 
       else
         puts "#{Time.now} : Saving breweries".blue
@@ -106,7 +107,7 @@ module Import
     def import_breweries_sql
       puts "#{Time.now} : Getting raw breweries file - sql".blue
       connection = Faraday::Connection.new @path_to_sql
-      response = connection.get(nil)
+      response = connection.get
       puts "#{Time.now} : Got file: #{response.status}".blue
 
       unless @dry_run
