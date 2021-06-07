@@ -300,6 +300,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
+  faraday (~> 1.4.0)
   geocoder
   geokit-rails
   guard-rspec
@@ -326,4 +327,4 @@ RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   2.1.1
+   2.2.17
