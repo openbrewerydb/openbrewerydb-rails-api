@@ -10,10 +10,10 @@ gem 'ahoy_matey', '~> 3.2'
 
 # Backend
 gem 'bcrypt', '~> 3.1.16'
+gem 'faraday', '~> 1.4.0'
 gem 'geocoder', '~> 1.6.7'
 gem 'geokit-rails', '~> 2.3.2'
 gem 'has_scope', '~> 0.8.0'
-gem 'faraday', '~> 1.4.0'
 gem 'jwt', '~> 2.2.3'
 gem 'puma', '~> 4.3'
 gem 'rack', '>= 2.2.3'
