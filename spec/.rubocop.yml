@@ -1,11 +1,7 @@
 inherit_from:
   - ../.rubocop.yml
 
-StringLiterals:
+Style/StringLiterals:
   EnforcedStyle: double_quotes
   Exclude:
     - './*_helper.rb'
-
-# describe block
-Metrics/BlockLength:
-  Enabled: false

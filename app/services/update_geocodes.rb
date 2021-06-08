@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Task to update the geocoding on breweries in DB
 class UpdateGeocodes
   def initialize
     @log = ActiveSupport::Logger.new('log/update_geocodes.log')
@@ -30,49 +31,49 @@ class UpdateGeocodes
 
   private
 
-    def log_and_print(message)
-      puts(message)
-      @log.info(message.uncolorize)
+  def log_and_print(message)
+    puts(message)
+    @log.info(message.uncolorize)
+  end
+
+  def output_summary
+    log_and_print("\n---------------\nTotal: #{@counter[:total]}".white)
+    log_and_print("Updated: #{@counter[:updated]}".green)
+    log_and_print("Skipped: #{@counter[:skipped]}".blue)
+    log_and_print("Failed:  #{@counter[:failed]}".red)
+    log_and_print('----------------'.white)
+  end
+
+  def process_brewery_batches
+    Brewery.find_in_batches(start: @offset) do |group|
+      process_breweries(group)
     end
+  end
 
-    def output_summary
-      log_and_print("\n---------------\nTotal: #{@counter[:total]}".white)
-      log_and_print("Updated: #{@counter[:updated]}".green)
-      log_and_print("Skipped: #{@counter[:skipped]}".blue)
-      log_and_print("Failed:  #{@counter[:failed]}".red)
-      log_and_print('----------------'.white)
-    end
+  def process_breweries(breweries = [])
+    breweries.each do |brewery|
+      @counter[:total] += 1
 
-    def process_brewery_batches
-      Brewery.find_in_batches(start: @offset) do |group|
-        process_breweries(group)
-      end
-    end
+      puts "#{brewery.id}. #{brewery.name} - #{brewery.address}".blue
 
-    def process_breweries(breweries = [])
-      breweries.each do |brewery|
-        @counter[:total] += 1
+      if brewery.street.present? &&
+         brewery.latitude.blank? &&
+         brewery.street.match?(/[Ste]/)
 
-        puts "#{brewery.id}. #{brewery.name} - #{brewery.address}".blue
-
-        if brewery.street.present? &&
-           brewery.latitude.blank? &&
-           brewery.street.match?(/[Ste|Suite]/)
-
-          unless @dry_run
-            if brewery.save
-              puts "     #{brewery.latitude}, #{brewery.longitude}".green
-              @counter[:updated] += 1
-              sleep 1
-            else
-              puts "     #{brewery.name} failed to update!".red
-              @counter[:failed] += 1
-            end
+        unless @dry_run
+          if brewery.save
+            puts "     #{brewery.latitude}, #{brewery.longitude}".green
+            @counter[:updated] += 1
+            sleep 1
+          else
+            puts "     #{brewery.name} failed to update!".red
+            @counter[:failed] += 1
           end
-        else
-          @counter[:skipped] += 1
-          puts '     Skipped!'.red
         end
+      else
+        @counter[:skipped] += 1
+        puts '     Skipped!'.red
       end
     end
+  end
 end

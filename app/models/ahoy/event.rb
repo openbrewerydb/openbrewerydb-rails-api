@@ -1,7 +1,12 @@
-class Ahoy::Event < ApplicationRecord
-  include Ahoy::QueryMethods
+# frozen_string_literal: true
 
-  self.table_name = "ahoy_events"
+module Ahoy
+  # Ahoy Event model class
+  class Event < ApplicationRecord
+    include Ahoy::QueryMethods
 
-  belongs_to :visit
+    self.table_name = 'ahoy_events'
+
+    belongs_to :visit
+  end
 end

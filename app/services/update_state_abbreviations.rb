@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Task to update the state abbreviations
 class UpdateStateAbbreviations
   def initialize
     @log = ActiveSupport::Logger.new('log/update_state_abbreviations.log')
@@ -29,53 +30,53 @@ class UpdateStateAbbreviations
 
   private
 
-    def log_and_print(message)
-      puts(message)
-      @log.info(message.uncolorize)
+  def log_and_print(message)
+    puts(message)
+    @log.info(message.uncolorize)
+  end
+
+  def output_summary
+    log_and_print("\n---------------\nTotal: #{@counter[:total]}".white)
+    log_and_print("Updated: #{@counter[:updated]}".green)
+    log_and_print("Skipped: #{@counter[:skipped]}".blue)
+    log_and_print("Failed:  #{@counter[:failed]}".red)
+    log_and_print('----------------'.white)
+  end
+
+  def process_brewery_batches
+    Brewery.find_in_batches.with_index do |group, batch|
+      log_and_print("Processing group ##{batch + 1}")
+      process_breweries(group)
+    end
+  end
+
+  def process_breweries(breweries = [])
+    breweries.each do |brewery|
+      update_state_abbreviation(brewery)
+    end
+  end
+
+  def update_state_abbreviation(brewery)
+    @counter[:total] += 1
+
+    if brewery.state.blank?
+      @counter[:failed] += 1
+      return
     end
 
-    def output_summary
-      log_and_print("\n---------------\nTotal: #{@counter[:total]}".white)
-      log_and_print("Updated: #{@counter[:updated]}".green)
-      log_and_print("Skipped: #{@counter[:skipped]}".blue)
-      log_and_print("Failed:  #{@counter[:failed]}".red)
-      log_and_print('----------------'.white)
-    end
-
-    def process_brewery_batches
-      Brewery.find_in_batches.with_index do |group, batch|
-        log_and_print("Processing group ##{batch + 1}")
-        process_breweries(group)
+    # Check if brewery state is only two characters (ie, an abbreviation)
+    if brewery.state.match?(/^[A-Za-z]{2}$/)
+      unless @dry_run
+        brewery.update_attribute(
+          :state,
+          STATE_ABBR_TO_NAME[brewery.state.upcase]
+        )
       end
+      @counter[:updated] += 1
+    else
+      @counter[:skipped] += 1
     end
-
-    def process_breweries(breweries = [])
-      breweries.each do |brewery|
-        update_state_abbreviation(brewery)
-      end
-    end
-
-    def update_state_abbreviation(brewery)
-      @counter[:total] += 1
-
-      if brewery.state.blank?
-        @counter[:failed] += 1
-        return
-      end
-
-      # Check if brewery state is only two characters (ie, an abbreviation)
-      if brewery.state.match?(/^[A-Za-z]{2}$/)
-        unless @dry_run
-          brewery.update_attribute(
-            :state,
-            STATE_ABBR_TO_NAME[brewery.state.upcase]
-          )
-        end
-        @counter[:updated] += 1
-      else
-        @counter[:skipped] += 1
-      end
-    end
+  end
 end
 
 STATE_ABBR_TO_NAME = {

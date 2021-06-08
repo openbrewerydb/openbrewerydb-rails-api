@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
+# BreweryController class
 class BreweriesController < ApplicationController
-  # SORT_ORDER = { 'asc': :asc, 'desc': :desc }.freeze
-  SORT_ORDER = %w[ asc desc ].freeze
+  SORT_ORDER = %w[asc desc].freeze
   DDOS_ATTACK = ENV['DDOS_ATTACK'] == 'true'
 
   before_action :set_brewery, only: %i[show update destroy]
@@ -48,19 +48,19 @@ class BreweriesController < ApplicationController
   def autocomplete
     expires_in 1.day, public: true
 
-    if DDOS_ATTACK
-      @breweries = { message: "This endpoint is temporarily disabled." }
-    else
-      @breweries = Brewery.search(
-        format_query(params[:query]),
-        fields: %w[name city state],
-        match: :word_start,
-        limit: 15,
-        load: false,
-        misspellings: { below: 2 }
-      )
-      @breweries = @breweries.map { |b| { id: b.id, name: b.name } }
-    end
+    @breweries =
+      if DDOS_ATTACK
+        { message: 'This endpoint is temporarily disabled.' }
+      else
+        Brewery.search(
+          format_query(params[:query]),
+          fields: %w[name city state],
+          match: :word_start,
+          limit: 15,
+          load: false,
+          misspellings: { below: 2 }
+        ).map { |b| { id: b.id, name: b.name } }
+      end
     json_response(@breweries)
   end
 
@@ -68,15 +68,16 @@ class BreweriesController < ApplicationController
   def search
     expires_in 1.day, public: true
 
-    if DDOS_ATTACK
-      @breweries = { message: "This endpoint is temporarily disabled." }
-    else
-      @breweries = Brewery.search(
-        format_query(params[:query]),
-        page: params[:page],
-        per_page: params[:per_page]
-      )
-    end
+    @breweries =
+      if DDOS_ATTACK
+        { message: 'This endpoint is temporarily disabled.' }
+      else
+        Brewery.search(
+          format_query(params[:query]),
+          page: params[:page],
+          per_page: params[:per_page]
+        )
+      end
 
     json_response(@breweries)
   end
@@ -104,49 +105,48 @@ class BreweriesController < ApplicationController
 
   private
 
-    def brewery_params
-      params.permit(
-        :name, :street, :city, :state, :postal_code, :phone, :country,
-        :website_url, :brewery_type
-      )
+  def brewery_params
+    params.permit(
+      :name, :street, :city, :state, :postal_code, :phone, :country,
+      :website_url, :brewery_type
+    )
+  end
+
+  # A list of the param names that can be used for ordering the model list.
+  # For example it retrieves a list of breweries in descending order of type.
+  # Within a specific type, names are ordered first
+  # order_params
+  # GET /breweries?sort=type_desc,name
+  # order_params # => { brewery_type: :desc, name: :asc }
+  # Brewery.order(brewery_type: :desc, name: :asc)
+  #
+  def order_params
+    return unless params[:sort]
+
+    ordering = {}
+    sorted_params = params[:sort].split(',')
+
+    sorted_params.each do |attr|
+      attr, sort_m = attr.split(':')
+      sort_method = SORT_ORDER.include?(sort_m) ? sort_m : 'asc'
+      attr = 'brewery_type' if attr == 'type'
+
+      ordering[attr] = sort_method.to_sym if Brewery.attribute_names.include?(attr)
     end
 
-    # A list of the param names that can be used for ordering the model list.
-    # For example it retrieves a list of breweries in descending order of type.
-    # Within a specific type, names are ordered first
-    #
-    # GET /breweries?sort=-type,name
-    # order_params # => { brewery_type: :desc, name: :asc }
-    # Brewery.order(brewery_type: :desc, name: :asc)
-    #
-    def order_params
-      return unless params[:sort]
+    ordering
+  end
 
-      ordering = {}
-      sorted_params = params[:sort].split(',')
+  def set_brewery
+    @brewery = Brewery.find(params[:id])
+  end
 
-      sorted_params.each do |attr|
-        attr, sort_m = attr.split(':')
-        sort_method = SORT_ORDER.include?(sort_m) ? sort_m : 'asc'
-        attr = 'brewery_type' if attr == 'type'
-        if Brewery.attribute_names.include?(attr)
-          ordering[attr] = sort_method.to_sym 
-        end
-      end
+  def track_analytics
+    ahoy.track action_name, params
+  end
 
-      ordering
-    end
-
-    def set_brewery
-      @brewery = Brewery.find(params[:id])
-    end
-
-    def track_analytics
-      ahoy.track self.action_name, params
-    end
-
-    # Allow _ to be a separator
-    def format_query(query)
-      return query.gsub('_', ' ')
-    end
+  # Allow _ to be a separator
+  def format_query(query)
+    query.gsub('_', ' ')
+  end
 end
