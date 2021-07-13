@@ -1,6 +1,6 @@
-![Open Brewery DB Logo](OpenBreweryDBLogo.png)
-
 # 🍻 Official Open Brewery DB REST API Server
+
+![Open Brewery DB Logo](obdb-logo-md.jpg)
 
 ![Github Actions Badge](https://github.com/chrisjm/openbrewerydb-rails-api/workflows/Build%20&%20Test%20Suite/badge.svg)
 
@@ -77,7 +77,7 @@ rake searchkick:reindex CLASS=Brewery RAILS_ENV=[development, test]
 
 > Note! The geocode task takes an extraordinary amount of time. Do not run this task unless you require it. You should also use the BATCH env so you do not run out of memory.
 ### Update
-Updating is the default task. This should be run if you wish to only update your existing database. 
+Updating is the default task. This should be run if you wish to only update your existing database.
 
 ### Fresh import
 This option will truncate your breweries table to make sure it's clean and then add all breweries. This will also bypass all validations as it's inserting by direct SQL commands.
