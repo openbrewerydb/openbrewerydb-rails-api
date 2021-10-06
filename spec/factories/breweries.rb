@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :brewery do
-    obdb_id { "#{name.underscore}-#{city.underscore}" }
+    obdb_id { "#{name.parameterize}-#{city.parameterize}" }
     name { "#{Faker::Company.name} Brewery" }
     street { Faker::Address.street_address }
     address_2 { Faker::Address.secondary_address }
