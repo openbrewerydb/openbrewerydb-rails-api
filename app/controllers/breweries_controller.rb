@@ -59,7 +59,7 @@ class BreweriesController < ApplicationController
           limit: 15,
           load: false,
           misspellings: { below: 2 }
-        ).map { |b| { id: b.id, name: b.name } }
+        ).map { |b| { id: b.obdb_id, name: b.name } }
       end
     json_response(@breweries)
   end
