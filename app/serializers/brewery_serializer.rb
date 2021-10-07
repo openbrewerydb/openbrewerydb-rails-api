@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class BrewerySerializer < ActiveModel::Serializer
-  attribute :id
-  attribute :obdb_id
+  attribute :obdb_id, key: :id
   attribute :name
   attribute :brewery_type
   attribute :street

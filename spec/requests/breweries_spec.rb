@@ -157,14 +157,14 @@ RSpec.describe "Breweries API", type: :request do
         create_list(:brewery, 2, brewery_type: "nano")
         create_list(:brewery, 3, brewery_type: "planned")
       end
-      
+
       it "returns a filtered list of breweries - single" do
-        get "/breweries", params: {exclude_types: "micro"}
+        get "/breweries", params: { exclude_types: "micro" }
         expect(json.size).to eq(5)
       end
 
       it "returns a filtered list of breweries - multiple" do
-        get "/breweries", params: {exclude_types: "micro,nano"}
+        get "/breweries", params: { exclude_types: "micro,nano" }
         expect(json.size).to eq(3)
       end
     end
@@ -227,14 +227,14 @@ RSpec.describe "Breweries API", type: :request do
 
   describe "GET /breweries/:id" do
     let!(:brewery) { create(:brewery) }
-    let(:brewery_id) { brewery.id }
+    let(:brewery_id) { brewery.obdb_id }
 
     before { get "/breweries/#{brewery_id}" }
 
     context "when the record exists" do
       it "returns the brewery" do
         expect(json).not_to be_empty
-        expect(json["id"]).to eq(brewery.id)
+        expect(json["id"]).to eq(brewery.obdb_id)
         expect(json["name"]).to eq(brewery.name)
         expect(json["brewery_type"]).to eq(brewery.brewery_type)
         expect(json["street"]).to eq(brewery.street)
@@ -249,15 +249,15 @@ RSpec.describe "Breweries API", type: :request do
       end
 
       it "returns status code 200" do
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 
     context "when the record does not exist" do
-      let(:brewery_id) { 100 }
+      let(:brewery_id) { "fictional-brewery-nowhere" }
 
       it "returns status code 404" do
-        expect(response).to have_http_status(404)
+        expect(response).to have_http_status(:not_found)
       end
 
       it "returns a not found message" do

@@ -138,7 +138,7 @@ class BreweriesController < ApplicationController
   end
 
   def set_brewery
-    @brewery = Brewery.find(params[:id])
+    @brewery = Brewery.find_by!(obdb_id: params[:id])
   end
 
   def track_analytics
