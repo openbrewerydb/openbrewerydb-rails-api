@@ -2,6 +2,8 @@
 
 # Brewery Model
 class Brewery < ApplicationRecord
+  self.table_name = "openbrewerydb_#{ENV['RAILS_ENV']}.breweries"
+
   # Elastic Search via Searchkick
   searchkick
 
