@@ -19,7 +19,7 @@ gem 'puma', '~> 4.3'
 gem 'rack', '>= 2.2.3'
 gem 'rack-cors', '~> 1.1.1'
 gem 'rails', '~> 5.2.6'
-gem 'sentry-raven', '~> 3.1'
+gem 'sentry-rails'
 
 # Elastic Search
 gem 'searchkick', '~> 4.4.4'
