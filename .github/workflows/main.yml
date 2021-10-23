@@ -7,11 +7,11 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ruby:2.6.5
+      image: ruby:2.7.4
 
     services:
       postgres:
-        image: postgres:9.4
+        image: postgres:12.7
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
