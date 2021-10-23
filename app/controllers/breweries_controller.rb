@@ -7,6 +7,7 @@ class BreweriesController < ApplicationController
 
   before_action :set_brewery, only: %i[show update destroy]
   before_action :track_analytics
+  before_action :validate_params, only: %i[show update]
 
   # FILTER: /breweries?by_country=scotland
   has_scope :by_country, only: :index
@@ -148,5 +149,16 @@ class BreweriesController < ApplicationController
   # Allow _ to be a separator
   def format_query(query)
     query.gsub('_', ' ')
+  end
+
+  def validate_params
+    params.each do |key, value|
+      next if %w[controller action].include?(key)
+
+      if value.ends_with?('\\')
+        render body: "#{key} query parameter has improper value.", status: :bad_request
+        return
+      end
+    end
   end
 end
