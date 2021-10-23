@@ -18,7 +18,7 @@ gem 'jwt', '~> 2.2.3'
 gem 'puma', '~> 4.3'
 gem 'rack', '>= 2.2.3'
 gem 'rack-cors', '~> 1.1.1'
-gem 'rails', '~> 5.2.6'
+gem 'rails', '~> 6.1'
 gem 'sentry-rails'
 
 # Elastic Search
