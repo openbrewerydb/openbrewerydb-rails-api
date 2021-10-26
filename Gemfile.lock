@@ -357,6 +357,7 @@ DEPENDENCIES
   jwt (~> 2.2.3)
   kaminari (~> 1.2.1)
   listen (>= 3.0.5, < 3.2)
+  nokogiri (~> 1.12.5)
   pg (~> 1.2.3)
   puma (~> 4.3)
   rack (>= 2.2.3)
