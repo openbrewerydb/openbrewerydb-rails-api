@@ -2,7 +2,7 @@
 require: rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.0
   Include:
     - "app/**/*"
     - "config.ru"
