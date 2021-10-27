@@ -157,6 +157,7 @@ class BreweriesController < ApplicationController
 
       if DISALLOWED_CHARACTERS.include?(value.last)
         render body: "#{key} query parameter has improper value.", status: :bad_request
+        return
       end
 
       case key
