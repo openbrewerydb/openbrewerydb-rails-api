@@ -7,7 +7,7 @@ class BreweriesController < ApplicationController
 
   before_action :set_brewery, only: %i[show update destroy]
   before_action :track_analytics
-  before_action :validate_params, only: %i[show update]
+  before_action :validate_params, only: %i[index]
 
   # FILTER: /breweries?by_country=scotland
   has_scope :by_country, only: :index
@@ -155,9 +155,19 @@ class BreweriesController < ApplicationController
     params.each do |key, value|
       next if %w[controller action].include?(key)
 
-      if value.ends_with?('\\')
+      if DISALLOWED_CHARACTERS.include?(value.last)
         render body: "#{key} query parameter has improper value.", status: :bad_request
-        return
+      end
+
+      case key
+      when 'by_type'
+        unless BREWERY_TYPES.include?(value)
+          render body: "Brewery type must include one of these types: #{BREWERY_TYPES}", status: :bad_request
+        end
+      when 'by_dist'
+        unless value.split(',').map(&:to_f).size == 2
+          render body: "You must provide latitude and longitude for the 'by_dist' query param", status: :bad_request
+        end
       end
     end
   end

@@ -138,16 +138,37 @@ RSpec.describe "Breweries API", type: :request do
         get "/breweries", params: { by_state: "delwar" }
         expect(json.size).to eq(0)
       end
+
+      it "throws an error when parameters have an ending escape" do
+        get "/breweries", params: { by_state: "delwar\\" }
+        expect(response).to have_http_status(400)
+      end
     end
 
     context "when by_type param is passed" do
       before do
-        create_list(:brewery, 3, brewery_type: "planned")
-        get "/breweries", params: { by_type: "Planned" }
+        create_list(:brewery, 3, brewery_type: "planning")
       end
 
-      it "returns a filtered list of breweries" do
-        expect(json.size).to eq(3)
+      context "when valid type is queried" do
+        before do
+          get "/breweries", params: { by_type: "planning" }
+        end
+
+        it "returns a filtered list of breweries" do
+          expect(json.size).to eq(3)
+        end
+      end
+
+      context "when invalid type is queried" do
+        before do
+          get "/breweries", params: { by_type: "notvalid" }
+        end
+
+        it "throws a 400 error" do
+          # expect(response).to be_an_instance_of(ActionDispatch::Request)
+          expect(response).to have_http_status(400)
+        end
       end
     end
 
@@ -190,6 +211,22 @@ RSpec.describe "Breweries API", type: :request do
       it "returns a filtered list of breweries for international postal codes" do
         get "/breweries", params: { by_postal: "WC2N" }
         expect(json.size).to eq(1)
+      end
+    end
+
+    context "when distance param is passed" do
+      before do
+        create_list(:brewery, 5)
+      end
+
+      context "when invalid parameters are passed" do
+        before do
+          get "/breweries", params: { by_dist: "1" }
+        end
+
+        it "throws a 400 error" do
+          expect(response).to have_http_status(400)
+        end
       end
     end
 
