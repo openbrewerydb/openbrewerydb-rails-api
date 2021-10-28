@@ -15,11 +15,12 @@ gem 'geocoder', '~> 1.6.7'
 gem 'geokit-rails', '~> 2.3.2'
 gem 'has_scope', '~> 0.8.0'
 gem 'jwt', '~> 2.2.3'
-gem "nokogiri", "~> 1.12.5"
+gem 'nokogiri', '~> 1.12.5'
 gem 'puma', '~> 4.3'
 gem 'rack', '>= 2.2.3'
 gem 'rack-cors', '~> 1.1.1'
 gem 'rails', '~> 6.1'
+gem 'rexml'
 gem 'sentry-rails'
 
 # Elastic Search
