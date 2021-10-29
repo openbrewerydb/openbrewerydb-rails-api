@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.4'
+ruby '3.0.2'
 
 # Analytics
 gem 'ahoy_matey', '~> 3.2'
@@ -15,10 +15,12 @@ gem 'geocoder', '~> 1.6.7'
 gem 'geokit-rails', '~> 2.3.2'
 gem 'has_scope', '~> 0.8.0'
 gem 'jwt', '~> 2.2.3'
+gem 'nokogiri', '~> 1.12.5'
 gem 'puma', '~> 4.3'
 gem 'rack', '>= 2.2.3'
 gem 'rack-cors', '~> 1.1.1'
-gem 'rails', '~> 5.2.6'
+gem 'rails', '~> 6.1'
+gem 'rexml'
 gem 'sentry-rails'
 
 # Elastic Search
