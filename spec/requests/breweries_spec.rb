@@ -139,10 +139,12 @@ RSpec.describe "Breweries API", type: :request do
         expect(json.size).to eq(0)
       end
 
-      it "throws an error when parameters have an ending escape" do
-        get "/breweries", params: { by_state: "delwar\\" }
-        expect(response).to have_http_status(400)
-      end
+      # Passes, but throwing error on production
+      # https://sentry.io/share/issue/3ff46bbbcf0d4affa0de1f5cdd0fc461/
+      # it "throws an error when parameters have an ending escape" do
+      #   get "/breweries", params: { by_state: "delwar\\" }
+      #   expect(response).to have_http_status(400)
+      # end
     end
 
     context "when by_type param is passed" do
