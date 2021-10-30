@@ -54,10 +54,6 @@ class BreweriesController < ApplicationController
       else
         Brewery.search(
           format_query(params[:query]),
-          fields: %w[name city state],
-          match: :word_start,
-          limit: 15,
-          load: false,
           misspellings: { below: 2 }
         ).map { |b| { id: b.obdb_id, name: b.name } }
       end
