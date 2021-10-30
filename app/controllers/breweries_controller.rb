@@ -151,10 +151,14 @@ class BreweriesController < ApplicationController
     params.each do |key, value|
       next if %w[controller action].include?(key)
 
-      if DISALLOWED_CHARACTERS.include?(value.last)
-        render body: "#{key} query parameter has improper value.", status: :bad_request
-        return
-      end
+      # NOTE: Throwing error --
+      # `undefined method `last' for #<ActionController::Parameters {} permitted: false>`
+      # https://sentry.io/share/issue/3ff46bbbcf0d4affa0de1f5cdd0fc461/
+      #
+      # if DISALLOWED_CHARACTERS.include?(value.last)
+      #   render body: "#{key} query parameter has improper value.", status: :bad_request
+      #   return
+      # end
 
       case key
       when 'by_type'
