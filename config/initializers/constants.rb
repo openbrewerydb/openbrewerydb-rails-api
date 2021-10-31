@@ -11,5 +11,3 @@ BREWERY_TYPES = [
   "proprieter",
   "closed"
 ].freeze
-
-DISALLOWED_CHARACTERS = %w[\\ %].freeze
