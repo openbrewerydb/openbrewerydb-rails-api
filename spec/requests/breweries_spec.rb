@@ -264,6 +264,27 @@ RSpec.describe "Breweries API", type: :request do
     end
   end
 
+  describe "GET /breweries/random" do
+    before do
+      create_list(:brewery, 5)
+    end
+
+    it "returns a brewery" do
+      get "/breweries/random"
+      expect(json.size).to eq(1)
+    end
+
+    it "returns status code 200" do
+      get "/breweries/random"
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "returns a number of breweries when size param" do
+      get "/breweries/random", params: { size: 3 }
+      expect(json.size).to eq(3)
+    end
+  end
+
   describe "GET /breweries/:id" do
     let!(:brewery) { create(:brewery) }
     let(:brewery_id) { brewery.obdb_id }

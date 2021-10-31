@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :breweries, only: %i[index show] do
     get 'autocomplete', on: :collection
     get 'search', on: :collection
+    get 'random', on: :collection
   end
 
   # Redirect to WWW
