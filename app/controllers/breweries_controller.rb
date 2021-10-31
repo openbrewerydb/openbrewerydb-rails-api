@@ -156,7 +156,7 @@ class BreweriesController < ApplicationController
 
       case key
       when 'query'
-        error.push('Search cannot be blank.') if value.empty?
+        errors.push('Search cannot be blank.') if value.empty?
       when 'by_type'
         unless BREWERY_TYPES.include?(value)
           errors.push("Brewery type must include one of these types: #{BREWERY_TYPES}")
