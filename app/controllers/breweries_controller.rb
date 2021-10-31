@@ -90,27 +90,6 @@ class BreweriesController < ApplicationController
     json_response(@breweries)
   end
 
-  # POST /breweries
-  # NOTE: Disabled via /config/routes.rb
-  def create
-    @brewery = Brewery.create!(brewery_params)
-    json_response(@brewery, :created)
-  end
-
-  # PUT /breweries/:id
-  # NOTE: Disabled via /config/routes.rb
-  def update
-    @brewery.update(brewery_params)
-    head :no_content
-  end
-
-  # DELETE /breweries/:id
-  # NOTE: Disabled  via /config/routes.rb
-  def destroy
-    @brewery.destroy
-    head :no_content
-  end
-
   private
 
   def brewery_params
