@@ -45,6 +45,17 @@ class BreweriesController < ApplicationController
     json_response(@brewery)
   end
 
+  # GET /breweries/random
+  def random
+    expires_in 1.day, public: true
+    size = params[:size] || 1
+
+    # ActiveRecord random record: https://stackoverflow.com/a/25577054
+    @breweries = Brewery.order(Arel.sql('RANDOM()')).limit(size)
+
+    json_response(@breweries)
+  end
+
   # GET /breweries/autocomplete
   def autocomplete
     expires_in 1.day, public: true
