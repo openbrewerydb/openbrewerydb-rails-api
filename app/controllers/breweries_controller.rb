@@ -7,7 +7,7 @@ class BreweriesController < ApplicationController
 
   before_action :set_brewery, only: %i[show update destroy]
   before_action :track_analytics
-  before_action :validate_params, only: %i[index]
+  before_action :validate_params, only: %i[index autocomplete search]
 
   # FILTER: /breweries?by_country=scotland
   has_scope :by_country, only: :index
@@ -54,7 +54,7 @@ class BreweriesController < ApplicationController
         { message: 'This endpoint is temporarily disabled.' }
       else
         Brewery.search(
-          format_query(params[:query]),
+          params[:query],
           misspellings: { below: 2 }
         ).map { |b| { id: b.obdb_id, name: b.name } }
       end
@@ -70,7 +70,7 @@ class BreweriesController < ApplicationController
         { message: 'This endpoint is temporarily disabled.' }
       else
         Brewery.search(
-          format_query(params[:query]),
+          params[:query],
           page: params[:page],
           per_page: params[:per_page]
         )
@@ -142,34 +142,26 @@ class BreweriesController < ApplicationController
     ahoy.track action_name, params
   end
 
-  # Allow _ to be a separator
-  def format_query(query)
-    query.gsub('_', ' ')
-  end
-
   def validate_params
+    errors = []
     params.each do |key, value|
       next if %w[controller action].include?(key)
 
-      # NOTE: Throwing error --
-      # `undefined method `last' for #<ActionController::Parameters {} permitted: false>`
-      # https://sentry.io/share/issue/3ff46bbbcf0d4affa0de1f5cdd0fc461/
-      #
-      # if DISALLOWED_CHARACTERS.include?(value.last)
-      #   render body: "#{key} query parameter has improper value.", status: :bad_request
-      #   return
-      # end
+      # Convert underscores to spaces in params (for convenience)
+      value.gsub!('_', ' ') unless value.empty?
 
       case key
       when 'by_type'
         unless BREWERY_TYPES.include?(value)
-          render body: "Brewery type must include one of these types: #{BREWERY_TYPES}", status: :bad_request
+          errors.push("Brewery type must include one of these types: #{BREWERY_TYPES}")
         end
       when 'by_dist'
         unless value.split(',').map(&:to_f).size == 2
-          render body: "You must provide latitude and longitude for the 'by_dist' query param", status: :bad_request
+          errors.push("You must provide latitude and longitude for the 'by_dist' query param")
         end
       end
     end
+
+    return json_response({ errors: errors }, :bad_request) if errors.size.positive?
   end
 end
