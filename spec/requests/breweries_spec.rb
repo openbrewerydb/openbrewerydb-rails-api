@@ -12,7 +12,6 @@ RSpec.describe "Breweries API", type: :request do
 
       # NB: Set in /config/initializers/kaminari_config.rb
       it "returns the default number of breweries" do
-        expect(json).not_to be_empty
         expect(json.size).to eq(20)
       end
 
@@ -38,7 +37,6 @@ RSpec.describe "Breweries API", type: :request do
       end
 
       it "returns the default number of breweries" do
-        expect(json).not_to be_empty
         expect(json.size).to eq(20)
       end
     end
@@ -124,24 +122,29 @@ RSpec.describe "Breweries API", type: :request do
         expect(json.size).to eq(2)
       end
 
-      it "does not return a filtered list of breweries with kebab case" do
+      it "returns empty list with kebab case" do
         get "/breweries", params: { by_state: "new-york" }
         expect(json.size).to eq(0)
       end
 
-      it "does not return a filtered list of breweries when abbreviation" do
+      it "returns empty list when abbreviation" do
         get "/breweries", params: { by_state: "ny" }
         expect(json.size).to eq(0)
       end
 
-      it "does not return a filtered list of breweries when mispelled" do
+      it "returns empty list when mispelled" do
         get "/breweries", params: { by_state: "delwar" }
         expect(json.size).to eq(0)
       end
 
-      it "sanitizes for SQL LIKE" do
+      it "sanitizes for SQL LIKE \\" do
         get "/breweries", params: { by_state: "Cali\\" }
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "sanitizes for SQL LIKE %" do
+        get "/breweries", params: { by_state: "Cali%" }
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -150,25 +153,14 @@ RSpec.describe "Breweries API", type: :request do
         create_list(:brewery, 3, brewery_type: "planning")
       end
 
-      context "when valid type is queried" do
-        before do
-          get "/breweries", params: { by_type: "planning" }
-        end
-
-        it "returns a filtered list of breweries" do
-          expect(json.size).to eq(3)
-        end
+      it "returns a filtered list of breweries, when valid type" do
+        get "/breweries", params: { by_type: "planning" }
+        expect(json.size).to eq(3)
       end
 
-      context "when invalid type is queried" do
-        before do
-          get "/breweries", params: { by_type: "notvalid" }
-        end
-
-        it "throws a 400 error" do
-          # expect(response).to be_an_instance_of(ActionDispatch::Request)
-          expect(response).to have_http_status(400)
-        end
+      it "throws a 400 error, when invalid type" do
+        get "/breweries", params: { by_type: "notvalid" }
+        expect(response).to have_http_status(:bad_request)
       end
     end
 
@@ -219,44 +211,28 @@ RSpec.describe "Breweries API", type: :request do
         create_list(:brewery, 5)
       end
 
-      context "when invalid parameters are passed" do
-        before do
-          get "/breweries", params: { by_dist: "1" }
-        end
+      it "returns 200 when valid params" do
+        get "/breweries", params: { by_dist: "74,-114" }
+        expect(response).to have_http_status(:ok)
+      end
 
-        it "throws a 400 error" do
-          expect(response).to have_http_status(400)
-        end
+      it "throws a 400 error when invalid params" do
+        get "/breweries", params: { by_dist: "1" }
+        expect(response).to have_http_status(:bad_request)
       end
     end
 
     context "when sort param is passed" do
       before do
-        create(
-          :brewery,
-          name: "Alesmith",
-          brewery_type: "micro"
-        )
-        create(
-          :brewery,
-          name: "Ballast Point Brewing Company",
-          brewery_type: "regional"
-        )
-        create(
-          :brewery,
-          name: "Circle 9 Brewing",
-          brewery_type: "micro"
-        )
+        create(:brewery, name: "Alesmith", brewery_type: "micro")
+        create(:brewery, name: "Ballast Point Brewing Company", brewery_type: "regional")
+        create(:brewery, name: "Circle 9 Brewing", brewery_type: "micro")
         get "/breweries", params: { sort: "type,name:desc" }
       end
 
       it "returns a sorted list of breweries" do
         expect(json.map { |brewery| brewery["name"] }).to eq(
-          [
-            "Circle 9 Brewing",
-            "Alesmith",
-            "Ballast Point Brewing Company"
-          ]
+          ["Circle 9 Brewing", "Alesmith", "Ballast Point Brewing Company"]
         )
       end
     end
@@ -269,22 +245,6 @@ RSpec.describe "Breweries API", type: :request do
     before { get "/breweries/#{brewery_id}" }
 
     context "when the record exists" do
-      it "returns the brewery" do
-        expect(json).not_to be_empty
-        expect(json["id"]).to eq(brewery.obdb_id)
-        expect(json["name"]).to eq(brewery.name)
-        expect(json["brewery_type"]).to eq(brewery.brewery_type)
-        expect(json["street"]).to eq(brewery.street)
-        expect(json["address_2"]).to eq(brewery.address_2)
-        expect(json["address_3"]).to eq(brewery.address_3)
-        expect(json["city"]).to eq(brewery.city)
-        expect(json["state"]).to eq(brewery.state)
-        expect(json["county_province"]).to eq(brewery.county_province)
-        expect(json["postal_code"]).to eq(brewery.postal_code)
-        expect(json["country"]).to eq(brewery.country)
-        # expect(json["tag_list"]).to include("dog-friendly", "patio")
-      end
-
       it "returns status code 200" do
         expect(response).to have_http_status(:ok)
       end
