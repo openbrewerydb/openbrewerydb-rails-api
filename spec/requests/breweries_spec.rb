@@ -240,7 +240,7 @@ RSpec.describe "Breweries API", type: :request do
 
   describe "GET /breweries/random" do
     before do
-      create_list(:brewery, 5)
+      create_list(:brewery, 55)
     end
 
     it "returns a brewery" do
@@ -256,6 +256,11 @@ RSpec.describe "Breweries API", type: :request do
     it "returns a number of breweries when size param" do
       get "/breweries/random", params: { size: 3 }
       expect(json.size).to eq(3)
+    end
+
+    it "does not return more breweries than the max allowed" do
+      get "/breweries/random", params: { size: 51 }
+      expect(json.size).to eq(50)
     end
   end
 

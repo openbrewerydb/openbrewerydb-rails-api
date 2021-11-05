@@ -11,3 +11,5 @@ BREWERY_TYPES = [
   "proprieter",
   "closed"
 ].freeze
+
+MAX_PER_PAGE = 50
