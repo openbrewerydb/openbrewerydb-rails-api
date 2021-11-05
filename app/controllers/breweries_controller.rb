@@ -48,10 +48,10 @@ class BreweriesController < ApplicationController
   # GET /breweries/random
   def random
     expires_in 1.day, public: true
-    size = params[:size] || 1
+    size = params[:size].to_i == 0 ? 1 : params[:size].to_i
 
     # ActiveRecord random record: https://stackoverflow.com/a/25577054
-    @breweries = Brewery.order(Arel.sql('RANDOM()')).limit(size)
+    @breweries = Brewery.order(Arel.sql('RANDOM()')).limit([size, MAX_PER_PAGE].min)
 
     json_response(@breweries)
   end
