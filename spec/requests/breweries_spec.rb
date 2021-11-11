@@ -29,7 +29,13 @@ RSpec.describe "Breweries API", type: :request do
     context "when invalid params are passed" do
       before do
         create_list(:brewery, 25)
-        get "/breweries", params: { by_state: nil, page: "invalid", sort: "*bob" }
+        get "/breweries", params: {
+          by_state: nil,
+          page: "invalid",
+          sort: "*bob",
+          id: 42,
+          brewery: { id: 42 }
+        }
       end
 
       it "returns a status of 200" do

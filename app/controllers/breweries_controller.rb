@@ -138,7 +138,7 @@ class BreweriesController < ApplicationController
       next if %w[controller action].include?(key)
 
       # Convert underscores to spaces in params (for convenience)
-      value.gsub!('_', ' ') unless value.nil? || value.empty?
+      value.gsub!('_', ' ') unless value.nil? || !value.instance_of?(String)
 
       case key
       when 'by_type'
