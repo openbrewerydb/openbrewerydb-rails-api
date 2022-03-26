@@ -26,6 +26,10 @@ The Open Brewery DB API server is a Ruby on Rails app connected to a PostgreSQL 
 
 The server will be running at `http://localhost:3000`
 
+#### Updating
+
+**NOTE: Don't forget to use `bundle lock --add-platform x86_64-linux` after updating bundle!**
+
 ### Database Expectations
 
 There are some assumptions for the local PostgreSQL service configuration.
