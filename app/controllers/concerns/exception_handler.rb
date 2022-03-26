@@ -8,6 +8,7 @@ module ExceptionHandler
     rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
     rescue_from ActiveRecord::RecordNotFound, with: :not_found
     rescue_from Faraday::ConnectionFailed, with: :service_unavailable
+    rescue_from Elasticsearch::Transport::Transport::ServerError, with: :too_many_requests
   end
 
   private
@@ -24,6 +25,15 @@ module ExceptionHandler
                   'https://api.openbrewerydb.org/breweries?by_state=OH&sort=city'
       },
       :service_unavailable
+    )
+  end
+
+  def too_many_requests
+    json_response(
+      {
+        message: 'Concurrent request limit exceeded. Please delay concurrent calls using debounce or throttle.'
+      },
+      :too_many_requests
     )
   end
 
