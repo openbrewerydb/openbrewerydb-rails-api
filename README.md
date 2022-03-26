@@ -10,9 +10,9 @@ The Open Brewery DB API server is a Ruby on Rails app connected to a PostgreSQL 
 
 ## 📦 Dependencies
 
-* Ruby 2.7.4
-* PostgreSQL 12.7
-* Elastic Search (See [Searchkick's](https://github.com/ankane/searchkick) [Getting Started](https://github.com/ankane/searchkick#getting-started) section.) _Note: Elastic Search is likely to be removed in the future._
+- Ruby 3.1.1
+- PostgreSQL 14.2
+- Elastic Search (See [Searchkick's](https://github.com/ankane/searchkick) [Getting Started](https://github.com/ankane/searchkick#getting-started) section.) _Note: Elastic Search is likely to be removed in the future._
 
 ## 🚀 Getting Started
 
@@ -23,7 +23,6 @@ The Open Brewery DB API server is a Ruby on Rails app connected to a PostgreSQL 
 3. Run `bundle exec rails db:setup`
 4. Run database import. See [Data Import Task](#Data-Import-task)
 5. Run `bundle exec rails s`
-
 
 The server will be running at `http://localhost:3000`
 
@@ -44,6 +43,7 @@ All of these settings can be overwritten by setting environment variables in `.e
 See `config/database.yml` for configuration.
 
 ## Data Import task
+
 Using Rake, we can import the brewery data with a simple command.
 
 `rake breweries:import:breweries`
@@ -54,7 +54,8 @@ This command will update your existing database in the development environment w
 - `TRUNCATE=[true, false]`
 - `DRY_RUN=[true, false]`
 
-#### Prerequisites
+### Prerequisites
+
 You will need to have your postgresql server running as well as the ElasticSearch container. ElasticSearch is required for the autocompletion and fuzzy searching functionalities.
 
 ```shell
@@ -67,7 +68,8 @@ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elas
 ```
 
 Additionally, these commands will not run Geocode or index fields with `searchkick`. These have their own rake tasks and will need to be run manually if you would like to use their functionality.
-```
+
+```shell
 #geocode
 rake geocode:all CLASS=Brewery RAILS_ENV=[development, test] BATCH=100
 
@@ -76,16 +78,21 @@ rake searchkick:reindex CLASS=Brewery RAILS_ENV=[development, test]
 ```
 
 > Note! The geocode task takes an extraordinary amount of time. Do not run this task unless you require it. You should also use the BATCH env so you do not run out of memory.
+
 ### Update
+
 Updating is the default task. This should be run if you wish to only update your existing database.
 
 ### Fresh import
+
 This option will truncate your breweries table to make sure it's clean and then add all breweries. This will also bypass all validations as it's inserting by direct SQL commands.
 
 `rake breweries:import:breweries TRUNCATE=true RAILS_ENV=[development, test]`
 
 ### Adding data manually
+
 Importing data can also be done manually if you grab the data from [openbrewerydb](https://github.com/openbrewerydb/openbrewerydb).
+
 - Open postgresql shell with `psql <your user>`
 - `\c openbrewerydb_development` to connect to the database
 - Make sure the `breweries` table exists. `\dt`
@@ -102,13 +109,13 @@ For information on contributing to this project, please see the [contributing gu
 
 ## 🔗 Related
 
-* [Open Brewery DB Website & Documentation](https://github.com/chrisjm/openbrewerydb-gatsby)
-* [Open Brewery DB Dataset](https://github.com/openbrewerydb/openbrewerydb)
+- [Open Brewery DB Website & Documentation](https://github.com/chrisjm/openbrewerydb-gatsby)
+- [Open Brewery DB Dataset](https://github.com/openbrewerydb/openbrewerydb)
 
 ## 👾 Community
 
-* [Join the Newsletter](http://eepurl.com/dBjS0j)
-* [Join the Discord](https://discord.gg/SHtpdEN)
+- [Join the Newsletter](http://eepurl.com/dBjS0j)
+- [Join the Discord](https://discord.gg/SHtpdEN)
 
 ## 📫 Feedback
 
