@@ -17,7 +17,7 @@ gem 'has_scope', '~> 0.8'
 gem 'jwt', '~> 2.2'
 gem 'nokogiri', '~> 1.13'
 gem 'puma', '~> 4.3'
-gem 'rack', '>= 2.2'
+gem "rack", ">= 2.2.3.1"
 gem 'rack-cors', '~> 1.1'
 gem 'rails', '~> 6.1'
 gem 'rexml'
