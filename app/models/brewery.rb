@@ -2,6 +2,8 @@
 
 # Brewery Model
 class Brewery < ApplicationRecord
+  self.table_name = ENV.fetch('BREWERY_TABLE', 'breweries')
+
   # Elastic Search via Searchkick
   searchkick
 
