@@ -3,7 +3,7 @@ require: rubocop-rspec
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.1
   Include:
     - "app/**/*"
     - "config.ru"

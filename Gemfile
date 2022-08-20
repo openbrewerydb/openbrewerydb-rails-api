@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.1'
+ruby '3.1.2'
 
 # Analytics
 gem 'ahoy_matey', '~> 3.2'
@@ -14,7 +14,6 @@ gem 'faraday', '~> 1.4'
 gem 'geocoder', '~> 1.6'
 gem 'geokit-rails', '~> 2.3'
 gem 'has_scope', '~> 0.8'
-gem 'jwt', '~> 2.2'
 gem 'nokogiri', '~> 1.13'
 gem 'puma', '~> 4.3'
 gem "rack", ">= 2.2.3.1"
