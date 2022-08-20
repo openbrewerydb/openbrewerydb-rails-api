@@ -56,40 +56,6 @@ class BreweriesController < ApplicationController
     json_response(@breweries)
   end
 
-  # GET /breweries/autocomplete
-  def autocomplete
-    expires_in 1.day, public: true
-
-    @breweries =
-      if DDOS_ATTACK
-        { message: 'This endpoint is temporarily disabled.' }
-      else
-        Brewery.search(
-          params[:query],
-          misspellings: { below: 2 }
-        ).map { |b| { id: b.obdb_id, name: b.name } }
-      end
-    json_response(@breweries)
-  end
-
-  # GET /breweries/search
-  def search
-    expires_in 1.day, public: true
-
-    @breweries =
-      if DDOS_ATTACK
-        { message: 'This endpoint is temporarily disabled.' }
-      else
-        Brewery.search(
-          params[:query],
-          page: params[:page],
-          per_page: params[:per_page]
-        )
-      end
-
-    json_response(@breweries)
-  end
-
   private
 
   def brewery_params

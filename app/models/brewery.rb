@@ -4,9 +4,6 @@
 class Brewery < ApplicationRecord
   self.table_name = ENV.fetch('BREWERY_TABLE', 'breweries')
 
-  # Elastic Search via Searchkick
-  searchkick
-
   geocoded_by :address
 
   acts_as_mappable lat_column_name: :latitude, lng_column_name: :longitude

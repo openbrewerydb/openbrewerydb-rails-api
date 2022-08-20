@@ -23,9 +23,6 @@ gem 'rails', '~> 6.1'
 gem 'rexml'
 gem 'sentry-rails'
 
-# Elastic Search
-gem 'searchkick', '~> 4.6'
-
 # Pagination
 gem 'kaminari', '~> 1.2'
 

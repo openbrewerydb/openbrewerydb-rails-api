@@ -12,7 +12,6 @@ The Open Brewery DB API server is a Ruby on Rails app connected to a PostgreSQL 
 
 - Ruby 3.1.1
 - PostgreSQL 14.2
-- Elastic Search (See [Searchkick's](https://github.com/ankane/searchkick) [Getting Started](https://github.com/ankane/searchkick#getting-started) section.) _Note: Elastic Search is likely to be removed in the future._
 
 ## 🚀 Getting Started
 
@@ -60,25 +59,15 @@ This command will update your existing database in the development environment w
 
 ### Prerequisites
 
-You will need to have your postgresql server running as well as the ElasticSearch container. ElasticSearch is required for the autocompletion and fuzzy searching functionalities.
+You will need to have your postgresql server running.
 
 ```shell
 #start postgresql server
 sudo service postgresql start
 
-#pull and start elasticsearch container
-docker pull docker.elastic.co/elasticsearch/elasticsearch:7.12.1
-docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.12.1
-```
-
-Additionally, these commands will not run Geocode or index fields with `searchkick`. These have their own rake tasks and will need to be run manually if you would like to use their functionality.
-
 ```shell
 #geocode
 rake geocode:all CLASS=Brewery RAILS_ENV=[development, test] BATCH=100
-
-#searchkick
-rake searchkick:reindex CLASS=Brewery RAILS_ENV=[development, test]
 ```
 
 > Note! The geocode task takes an extraordinary amount of time. Do not run this task unless you require it. You should also use the BATCH env so you do not run out of memory.
