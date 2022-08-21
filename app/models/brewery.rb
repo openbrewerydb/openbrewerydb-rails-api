@@ -3,7 +3,9 @@
 # Brewery Model
 class Brewery < ApplicationRecord
   self.table_name = ENV.fetch('BREWERY_TABLE', 'breweries')
-  self.primary_key = "id"
+
+  # In case model table is a view (i.e., no primary key specified)
+  self.primary_key = 'id'
 
   # Elastic Search via Searchkick
   searchkick
@@ -38,9 +40,9 @@ class Brewery < ApplicationRecord
 
   def search_data
     {
-      name: name,
-      city: city,
-      state: state
+      name:,
+      city:,
+      state:
     }
   end
 end

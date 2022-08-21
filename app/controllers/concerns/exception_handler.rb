@@ -20,9 +20,9 @@ module ExceptionHandler
   def service_unavailable
     json_response(
       {
-        message: 'There is an issue connecting to the ElasticSearch server. '\
-                  'Please try again or use other filter options. Example: '\
-                  'https://api.openbrewerydb.org/breweries?by_state=OH&sort=city'
+        message: 'There is an issue connecting to the ElasticSearch server. ' \
+                 'Please try again or use other filter options. Example: ' \
+                 'https://api.openbrewerydb.org/breweries?by_state=OH&sort=city'
       },
       :service_unavailable
     )

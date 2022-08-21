@@ -32,8 +32,6 @@ Naming/FileName:
     - "Gemfile"
     - "Guardfile"
     - "Rakefile"
-Gemspec/DateAssignment:
-  Enabled: true
 Layout/HashAlignment:
   EnforcedHashRocketStyle: table
 Layout/LineLength:
