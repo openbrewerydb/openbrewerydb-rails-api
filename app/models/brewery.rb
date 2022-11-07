@@ -23,7 +23,13 @@ class Brewery < ApplicationRecord
   scope :by_city, ->(city) { where('lower(city) LIKE ?', "%#{sanitize_sql_like(city.downcase)}%") }
   scope :by_country, ->(country) { where('lower(country) = ?', country.downcase) }
   scope :by_name, ->(name) { where('lower(name) LIKE ?', "%#{sanitize_sql_like(name.downcase)}%") }
-  scope :by_state, ->(state) { where('lower(state) LIKE ?', "%#{sanitize_sql_like(state.downcase)}%") }
+  scope :by_state, lambda { |state|
+    where(
+      'lower(state) LIKE ? OR lower(county_province) LIKE ?',
+      "%#{sanitize_sql_like(state.downcase)}%",
+      "%#{sanitize_sql_like(state.downcase)}%"
+    )
+  }
   scope :by_type, ->(type) { where('lower(brewery_type) = ?', type.downcase) }
   scope :by_postal, ->(postal) { where('postal_code LIKE ?', "%#{sanitize_sql_like(postal)}%") }
   scope :by_ids, ->(ids) { where(id: ids.split(',')) }
