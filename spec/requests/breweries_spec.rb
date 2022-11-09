@@ -116,6 +116,7 @@ RSpec.describe "Breweries API", type: :request do
         create_list(:brewery, 2, state: "New York")
         create(:brewery, state: "California")
         create(:brewery, state: "Delaware")
+        create(:brewery, county_province: "dolnośląskie")
       end
 
       it "returns a filtered list of breweries" do
@@ -128,6 +129,7 @@ RSpec.describe "Breweries API", type: :request do
         expect(json.size).to eq(2)
       end
 
+      # Kebab-case doesn't seem to jive with sanitization
       it "returns empty list with kebab case" do
         get "/breweries", params: { by_state: "new-york" }
         expect(json.size).to eq(0)
@@ -141,6 +143,11 @@ RSpec.describe "Breweries API", type: :request do
       it "returns empty list when mispelled" do
         get "/breweries", params: { by_state: "delwar" }
         expect(json.size).to eq(0)
+      end
+
+      it "returns a filtered list when utf-8" do
+        get "/breweries", params: { by_state: "dolnośląskie" }
+        expect(json.size).to eq(1)
       end
 
       it "sanitizes for SQL LIKE \\" do

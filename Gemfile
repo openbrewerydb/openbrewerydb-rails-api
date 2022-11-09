@@ -29,7 +29,7 @@ gem 'searchkick', '~> 4.6'
 gem 'kaminari', '~> 1.2'
 
 # Database
-gem 'pg', '~> 1.2.3'
+gem 'pg', '~> 1.4'
 
 # Frontend
 gem 'active_model_serializers', '~> 0.10'
