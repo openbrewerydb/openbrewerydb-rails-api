@@ -251,6 +251,51 @@ RSpec.describe "Breweries API", type: :request do
     end
   end
 
+  describe "GET /breweries/meta" do
+    before do
+      create(:brewery)
+      create(:brewery, state: "dolnośląskie")
+      create(:brewery, county_province: "dolnośląskie")
+      create(:brewery, country: "Poland")
+      create(:brewery, postal_code: "OBDB123")
+    end
+
+    it "returns status code 200" do
+      get "/breweries/meta"
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "returns meta data about all breweries" do
+      get "/breweries/meta"
+      expect(json).to eq({ "total" => "5", "per_page" => "20", "page" => "1" })
+    end
+
+    it "returns meta data filtered by by_state" do
+      get "/breweries/meta", params: { by_state: "dolnośląskie" }
+      expect(json).to eq({ "total" => "2", "per_page" => "20", "page" => "1" })
+    end
+
+    it "returns meta data filtered by by_country" do
+      get "/breweries/meta", params: { by_country: "Poland" }
+      expect(json).to eq({ "total" => "1", "per_page" => "20", "page" => "1" })
+    end
+
+    it "returns meta data filtered by by_postal" do
+      get "/breweries/meta", params: { by_postal: "OBDB123" }
+      expect(json).to eq({ "total" => "1", "per_page" => "20", "page" => "1" })
+    end
+
+    it "returns meta data with per_page" do
+      get "/breweries/meta", params: { per_page: 2 }
+      expect(json).to eq({ "total" => "2", "per_page" => "2", "page" => "1" })
+    end
+
+    it "returns meta data with page" do
+      get "/breweries/meta", params: { per_page: 2, page: 3 }
+      expect(json).to eq({ "total" => "1", "per_page" => "2", "page" => "3" })
+    end
+  end
+
   describe "GET /breweries/random" do
     before do
       create_list(:brewery, 55)
