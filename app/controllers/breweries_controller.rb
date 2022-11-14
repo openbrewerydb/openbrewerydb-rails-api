@@ -42,11 +42,8 @@ class BreweriesController < ApplicationController
   # GET /breweries/meta
   def meta
     expires_in 1.day, public: true
-    @breweries =
-      apply_scopes(Brewery)
-      .order(order_params)
-      .page(params[:page])
-      .per(params[:per_page])
+
+    @breweries = apply_scopes(Brewery).all
 
     # Returning everything as string for now because Ruby is annoying
     json_response({

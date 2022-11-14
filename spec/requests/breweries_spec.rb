@@ -287,12 +287,12 @@ RSpec.describe "Breweries API", type: :request do
 
     it "returns meta data with per_page" do
       get "/breweries/meta", params: { per_page: 2 }
-      expect(json).to eq({ "total" => "2", "per_page" => "2", "page" => "1" })
+      expect(json).to eq({ "total" => "5", "per_page" => "2", "page" => "1" })
     end
 
     it "returns meta data with page" do
       get "/breweries/meta", params: { per_page: 2, page: 3 }
-      expect(json).to eq({ "total" => "1", "per_page" => "2", "page" => "3" })
+      expect(json).to eq({ "total" => "5", "per_page" => "2", "page" => "3" })
     end
   end
 
