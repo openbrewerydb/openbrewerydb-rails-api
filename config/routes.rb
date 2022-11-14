@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :breweries, only: %i[index show] do
-    get 'autocomplete', on: :collection
-    get 'search', on: :collection
-    get 'random', on: :collection
-  end
+  get '/breweries/autocomplete', to: 'breweries#autocomplete'
+  get '/breweries/meta', to: 'breweries#meta'
+  get '/breweries/random', to: 'breweries#random'
+  get '/breweries/search', to: 'breweries#search'
+  get '/breweries/:id', to: 'breweries#show'
+  get '/breweries', to: 'breweries#index'
 
-  # Redirect to WWW
+  # Otherwise, redirect to www
   root to: redirect('https://www.openbrewerydb.org/')
 end
