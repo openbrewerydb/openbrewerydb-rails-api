@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(version: 2023_01_07_000000) do
     t.string "address_3"
     t.string "county_province"
     t.string "obdb_id"
-    t.text "tags"
     t.index ["obdb_id"], name: "breweries_obdb_id_key", unique: true
   end
 end
