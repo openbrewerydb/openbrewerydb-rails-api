@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 2023_01_07_000000) do
     t.string "postal_code"
     t.string "website_url"
     t.string "phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string "country"
     t.decimal "longitude"
     t.decimal "latitude"
