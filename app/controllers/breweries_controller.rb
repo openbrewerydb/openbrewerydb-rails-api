@@ -6,7 +6,6 @@ class BreweriesController < ApplicationController
   DDOS_ATTACK = ENV['DDOS_ATTACK'] == 'true'
 
   before_action :set_brewery, only: %i[show update destroy]
-  before_action :track_analytics
   before_action :validate_params, only: %i[index meta autocomplete search]
 
   # FILTER: /breweries?by_country=scotland
@@ -140,10 +139,6 @@ class BreweriesController < ApplicationController
 
   def set_brewery
     @brewery = Brewery.find_by!(obdb_id: params[:id])
-  end
-
-  def track_analytics
-    ahoy.track action_name, params
   end
 
   def validate_params
