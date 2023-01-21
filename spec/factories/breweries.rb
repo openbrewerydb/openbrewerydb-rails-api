@@ -15,5 +15,7 @@ FactoryBot.define do
     country { Faker::Address.country }
     brewery_type { %w[micro planning brewpub].sample }
     website_url { Faker::Internet.url }
+    created_at { Time.now }
+    updated_at { Time.now }
   end
 end
