@@ -1,13 +1,6 @@
 # rake db:schema:load
 
-ActiveRecord::Schema.define(version: 2023_01_07_000000) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "fuzzystrmatch"
-  enable_extension "pg_trgm"
-  enable_extension "pgcrypto"
-  enable_extension "plpgsql"
-
+ActiveRecord::Schema.define(version: 2023_01_20_000000) do
   create_table "breweries", force: :cascade do |t|
     t.string "name"
     t.string "brewery_type"
