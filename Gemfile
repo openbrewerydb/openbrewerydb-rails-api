@@ -3,10 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.2'
-
-# Analytics
-gem 'ahoy_matey', '~> 3.2'
+ruby '3.2.0'
 
 # Backend
 gem 'bcrypt', '~> 3.1'
@@ -16,7 +13,7 @@ gem 'geokit-rails', '~> 2.3'
 gem 'has_scope', '~> 0.8'
 gem 'nokogiri', '~> 1.13'
 gem 'puma', '~> 4.3'
-gem "rack", ">= 2.2.3.1"
+gem 'rack', '>= 2.2.6'
 gem 'rack-cors', '~> 1.1'
 gem 'rails', '~> 6.1'
 gem 'rexml'

@@ -56,11 +56,6 @@ module Import
       end
 
       breweries = body.map do |brewery|
-        if Brewery.where(obdb_id: brewery[:obdb_id]).present?
-          @counter[:skipped] += 1
-          next
-        end
-
         @counter[:added] += 1
 
         {
@@ -79,7 +74,8 @@ module Import
           county_province: brewery[:county_province],
           longitude: brewery[:longitude],
           latitude: brewery[:latitude],
-          tags: brewery[:tags]
+          created_at: brewery[:created_at] || Time.now,
+          updated_at: brewery[:updated_at] || Time.now
         }
       end
 
@@ -98,9 +94,7 @@ module Import
         @counter[:skipped] += breweries.size
       else
         puts "#{Time.now} : Saving breweries".blue
-        ActiveRecord::Base.transaction do
-          Brewery.create!(breweries)
-        end
+        Brewery.upsert_all(breweries, unique_by: :obdb_id)
       end
     end
 
