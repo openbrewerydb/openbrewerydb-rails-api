@@ -77,25 +77,42 @@ RSpec.describe "Breweries API" do
 
     context "when by_city param is passed" do
       before do
-        create_list(:brewery, 8)
-        create_list(:brewery, 2, city: "San Diego")
-        get "/breweries", params: { by_city: "san Diego" }
+        create_list(:brewery, 1)
+        create_list(:brewery, 1, city: "San Diego")
+        create_list(:brewery, 1, city: "San Francisco")
+        create_list(:brewery, 1, city: "Houston")
       end
 
       it "returns a filtered list of breweries" do
+        get "/breweries", params: { by_city: "Houston" }
+        expect(json.size).to eq(1)
+      end
+
+      it "returns a filtered list with multiple" do
+        get "/breweries", params: { by_city: "San" }
         expect(json.size).to eq(2)
+      end
+
+      it "returns a filtered list with + as space" do
+        get "/breweries", params: { by_city: "San+Diego" }
+        expect(json.size).to eq(1)
       end
     end
 
     context "when by_country param is passed" do
       before do
-        create_list(:brewery, 3)
-        create_list(:brewery, 2, country: "England")
-        get "/breweries", params: { by_country: "England" }
+        create_list(:brewery, 1, country: "England")
+        create_list(:brewery, 1, country: "South Korea")
       end
 
       it "returns a filtered list of breweries" do
-        expect(json.size).to eq(2)
+        get "/breweries", params: { by_country: "England" }
+        expect(json.size).to eq(1)
+      end
+
+      it "handles '+' as a space in the query string" do
+        get "/breweries", params: { by_country: "South+Korea" }
+        expect(json.size).to eq(1)
       end
     end
 
@@ -138,6 +155,11 @@ RSpec.describe "Breweries API" do
       it "returns empty list with kebab case" do
         get "/breweries", params: { by_state: "new-york" }
         expect(json.size).to eq(0)
+      end
+
+      it "returns filtered list with + as space" do
+        get "/breweries", params: { by_state: "new+york" }
+        expect(json.size).to eq(2)
       end
 
       it "returns empty list when abbreviation" do
