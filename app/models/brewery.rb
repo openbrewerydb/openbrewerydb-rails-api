@@ -20,14 +20,16 @@ class Brewery < ApplicationRecord
   validates :country, presence: true
   validates :obdb_id, presence: true, uniqueness: true
 
-  scope :by_city, ->(city) { where('lower(city) LIKE ?', "%#{sanitize_sql_like(city.downcase)}%") }
-  scope :by_country, ->(country) { where('lower(country) = ?', country.downcase) }
-  scope :by_name, ->(name) { where('lower(name) LIKE ?', "%#{sanitize_sql_like(name.downcase)}%") }
+  scope :by_city, ->(city) { where('lower(city) LIKE ?', "%#{sanitize_sql_like(city.gsub('+', ' ').downcase)}%") }
+  scope :by_country, lambda { |country|
+                       where('lower(country) LIKE ?', "%#{sanitize_sql_like(country.gsub('+', ' ').downcase)}%")
+                     }
+  scope :by_name, ->(name) { where('lower(name) LIKE ?', "%#{sanitize_sql_like(name.gsub('+', ' ').downcase)}%") }
   scope :by_state, lambda { |state|
     where(
       'lower(state) LIKE ? OR lower(county_province) LIKE ?',
-      "%#{sanitize_sql_like(state.downcase)}%",
-      "%#{sanitize_sql_like(state.downcase)}%"
+      "%#{sanitize_sql_like(state.gsub('+', ' ').downcase)}%",
+      "%#{sanitize_sql_like(state.gsub('+', ' ').downcase)}%"
     )
   }
   scope :by_type, ->(type) { where('lower(brewery_type) = ?', type.downcase) }
