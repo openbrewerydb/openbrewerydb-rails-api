@@ -6,13 +6,13 @@ RSpec.describe "Breweries API" do
   describe "GET /breweries" do
     context "when no params are passed" do
       before do
-        create_list(:brewery, 25)
+        create_list(:brewery, 201)
         get "/breweries"
       end
 
-      # NB: Set in /config/initializers/kaminari_config.rb
+      # NOTE: Set in /config/initializers/kaminari_config.rb
       it "returns the default number of breweries" do
-        expect(json.size).to eq(20)
+        expect(json.size).to eq(50)
       end
 
       it "returns status code 200" do
@@ -28,7 +28,7 @@ RSpec.describe "Breweries API" do
 
     context "when invalid params are passed" do
       before do
-        create_list(:brewery, 25)
+        create_list(:brewery, 51)
         get "/breweries", params: {
           by_state: nil,
           page: "invalid",
@@ -43,24 +43,24 @@ RSpec.describe "Breweries API" do
       end
 
       it "returns the default number of breweries" do
-        expect(json.size).to eq(20)
+        expect(json.size).to eq(50)
       end
     end
 
     context "when page param is passed" do
       before do
-        create_list(:brewery, 25)
-        get "/breweries", params: { page: 2 }
+        create_list(:brewery, 101)
+        get "/breweries", params: { page: 3 }
       end
 
       it "returns another page of breweries" do
-        expect(json.size).to eq(5)
+        expect(json.size).to eq(1)
       end
     end
 
     context "when per_page param is passed" do
       before do
-        create_list(:brewery, 55)
+        create_list(:brewery, 205)
       end
 
       it "returns a limited number breweries" do
@@ -68,10 +68,10 @@ RSpec.describe "Breweries API" do
         expect(json.size).to eq(5)
       end
 
-      # NB: Set in /config/initializers/kaminari_config.rb
+      # NOTE: Set in /config/initializers/kaminari_config.rb
       it "does not exceed the maximum number of breweries per page" do
-        get "/breweries", params: { per_page: 55 }
-        expect(json.size).to eq(50)
+        get "/breweries", params: { per_page: 201 }
+        expect(json.size).to eq(200)
       end
     end
 
@@ -299,22 +299,22 @@ RSpec.describe "Breweries API" do
 
     it "returns meta data about all breweries" do
       get "/breweries/meta"
-      expect(json).to eq({ "total" => "5", "per_page" => "20", "page" => "1" })
+      expect(json).to eq({ "total" => "5", "per_page" => "50", "page" => "1" })
     end
 
     it "returns meta data filtered by by_state" do
       get "/breweries/meta", params: { by_state: "dolnośląskie" }
-      expect(json).to eq({ "total" => "2", "per_page" => "20", "page" => "1" })
+      expect(json).to eq({ "total" => "2", "per_page" => "50", "page" => "1" })
     end
 
     it "returns meta data filtered by by_country" do
       get "/breweries/meta", params: { by_country: "Poland" }
-      expect(json).to eq({ "total" => "1", "per_page" => "20", "page" => "1" })
+      expect(json).to eq({ "total" => "1", "per_page" => "50", "page" => "1" })
     end
 
     it "returns meta data filtered by by_postal" do
       get "/breweries/meta", params: { by_postal: "OBDB123" }
-      expect(json).to eq({ "total" => "1", "per_page" => "20", "page" => "1" })
+      expect(json).to eq({ "total" => "1", "per_page" => "50", "page" => "1" })
     end
 
     it "returns meta data with per_page" do
