@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Breweries API", type: :request do
+RSpec.describe "Breweries API" do
   describe "GET /breweries" do
     context "when no params are passed" do
       before do
@@ -101,13 +101,18 @@ RSpec.describe "Breweries API", type: :request do
 
     context "when by_name param is passed" do
       before do
-        create_list(:brewery, 8)
-        create_list(:brewery, 2, name: "McHappy's Brewpub Extravaganza")
-        get "/breweries", params: { by_name: "mchappy" }
+        create_list(:brewery, 1, name: "Broad Brook Brewing Company")
+        create_list(:brewery, 1, name: "McHappy's Brewpub Extravaganza")
       end
 
       it "returns a filtered list of breweries" do
-        expect(json.size).to eq(2)
+        get "/breweries", params: { by_name: "mchappy" }
+        expect(json.size).to eq(1)
+      end
+
+      it "handles '+' as a space in the query string" do
+        get "/breweries", params: { by_name: "broad+brook" }
+        expect(json.size).to eq(1)
       end
     end
 
