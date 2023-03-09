@@ -131,6 +131,11 @@ RSpec.describe "Breweries API" do
         get "/breweries", params: { by_name: "broad+brook" }
         expect(json.size).to eq(1)
       end
+
+      it "handles a space as a space in the query string" do
+        get "/breweries", params: { by_name: "broad brook" }
+        expect(json.size).to eq(1)
+      end
     end
 
     context "when by_state param is passed" do
