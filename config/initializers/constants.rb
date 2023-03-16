@@ -8,7 +8,7 @@ BREWERY_TYPES = [
   "planning",
   "bar",
   "contract",
-  "proprieter",
+  "proprietor",
   "closed"
 ].freeze
 
