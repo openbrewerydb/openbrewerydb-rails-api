@@ -1,15 +1,16 @@
+# frozen_string_literal: true
 
-BREWERY_TYPES = [
-  "micro",
-  "nano",
-  "regional",
-  "brewpub",
-  "large",
-  "planning",
-  "bar",
-  "contract",
-  "proprietor",
-  "closed"
+BREWERY_TYPES = %w[
+  micro
+  nano
+  regional
+  brewpub
+  large
+  planning
+  bar
+  contract
+  proprietor
+  closed
 ].freeze
 
 MAX_PER_PAGE = 50
