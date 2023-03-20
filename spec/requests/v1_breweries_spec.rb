@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
-# NOTE: The `/breweries` endpoint will be deprecrecated. Please use `/v1/breweries` instead.
-
 require "rails_helper"
 
 RSpec.describe "Breweries API" do
-  describe "GET /breweries" do
+  describe "GET /v1/breweries" do
     context "when no params are passed" do
       before do
         create_list(:brewery, 201)
-        get "/breweries"
+        get "/v1/breweries"
       end
 
       # NOTE: Set in /config/initializers/kaminari_config.rb
@@ -31,7 +29,7 @@ RSpec.describe "Breweries API" do
     context "when invalid params are passed" do
       before do
         create_list(:brewery, 51)
-        get "/breweries", params: {
+        get "/v1/breweries", params: {
           by_state: nil,
           page: "invalid",
           sort: "*bob",
@@ -52,7 +50,7 @@ RSpec.describe "Breweries API" do
     context "when page param is passed" do
       before do
         create_list(:brewery, 101)
-        get "/breweries", params: { page: 3 }
+        get "/v1/breweries", params: { page: 3 }
       end
 
       it "returns another page of breweries" do
@@ -66,13 +64,13 @@ RSpec.describe "Breweries API" do
       end
 
       it "returns a limited number breweries" do
-        get "/breweries", params: { per_page: 5 }
+        get "/v1/breweries", params: { per_page: 5 }
         expect(json.size).to eq(5)
       end
 
       # NOTE: Set in /config/initializers/kaminari_config.rb
       it "does not exceed the maximum number of breweries per page" do
-        get "/breweries", params: { per_page: 201 }
+        get "/v1/breweries", params: { per_page: 201 }
         expect(json.size).to eq(200)
       end
     end
@@ -86,17 +84,17 @@ RSpec.describe "Breweries API" do
       end
 
       it "returns a filtered list of breweries" do
-        get "/breweries", params: { by_city: "Houston" }
+        get "/v1/breweries", params: { by_city: "Houston" }
         expect(json.size).to eq(1)
       end
 
       it "returns a filtered list with multiple" do
-        get "/breweries", params: { by_city: "San" }
+        get "/v1/breweries", params: { by_city: "San" }
         expect(json.size).to eq(2)
       end
 
       it "returns a filtered list with + as space" do
-        get "/breweries", params: { by_city: "San+Diego" }
+        get "/v1/breweries", params: { by_city: "San+Diego" }
         expect(json.size).to eq(1)
       end
     end
@@ -108,12 +106,12 @@ RSpec.describe "Breweries API" do
       end
 
       it "returns a filtered list of breweries" do
-        get "/breweries", params: { by_country: "England" }
+        get "/v1/breweries", params: { by_country: "England" }
         expect(json.size).to eq(1)
       end
 
       it "handles '+' as a space in the query string" do
-        get "/breweries", params: { by_country: "South+Korea" }
+        get "/v1/breweries", params: { by_country: "South+Korea" }
         expect(json.size).to eq(1)
       end
     end
@@ -125,17 +123,17 @@ RSpec.describe "Breweries API" do
       end
 
       it "returns a filtered list of breweries" do
-        get "/breweries", params: { by_name: "mchappy" }
+        get "/v1/breweries", params: { by_name: "mchappy" }
         expect(json.size).to eq(1)
       end
 
       it "handles '+' as a space in the query string" do
-        get "/breweries", params: { by_name: "broad+brook" }
+        get "/v1/breweries", params: { by_name: "broad+brook" }
         expect(json.size).to eq(1)
       end
 
       it "handles a space as a space in the query string" do
-        get "/breweries", params: { by_name: "broad brook" }
+        get "/v1/breweries", params: { by_name: "broad brook" }
         expect(json.size).to eq(1)
       end
     end
@@ -149,48 +147,48 @@ RSpec.describe "Breweries API" do
       end
 
       it "returns a filtered list of breweries" do
-        get "/breweries", params: { by_state: "california" }
+        get "/v1/breweries", params: { by_state: "california" }
         expect(json.size).to eq(1)
       end
 
       it "returns a filtered list of breweries with snake case" do
-        get "/breweries", params: { by_state: "new_york" }
+        get "/v1/breweries", params: { by_state: "new_york" }
         expect(json.size).to eq(2)
       end
 
       # Kebab-case doesn't seem to jive with sanitization
       it "returns empty list with kebab case" do
-        get "/breweries", params: { by_state: "new-york" }
+        get "/v1/breweries", params: { by_state: "new-york" }
         expect(json.size).to eq(0)
       end
 
       it "returns filtered list with + as space" do
-        get "/breweries", params: { by_state: "new+york" }
+        get "/v1/breweries", params: { by_state: "new+york" }
         expect(json.size).to eq(2)
       end
 
       it "returns empty list when abbreviation" do
-        get "/breweries", params: { by_state: "ny" }
+        get "/v1/breweries", params: { by_state: "ny" }
         expect(json.size).to eq(0)
       end
 
       it "returns empty list when mispelled" do
-        get "/breweries", params: { by_state: "delwar" }
+        get "/v1/breweries", params: { by_state: "delwar" }
         expect(json.size).to eq(0)
       end
 
       it "returns a filtered list when utf-8" do
-        get "/breweries", params: { by_state: "dolnośląskie" }
+        get "/v1/breweries", params: { by_state: "dolnośląskie" }
         expect(json.size).to eq(1)
       end
 
       it "sanitizes for SQL LIKE \\" do
-        get "/breweries", params: { by_state: "Cali\\" }
+        get "/v1/breweries", params: { by_state: "Cali\\" }
         expect(response).to have_http_status(:ok)
       end
 
       it "sanitizes for SQL LIKE %" do
-        get "/breweries", params: { by_state: "Cali%" }
+        get "/v1/breweries", params: { by_state: "Cali%" }
         expect(response).to have_http_status(:ok)
       end
     end
@@ -201,12 +199,12 @@ RSpec.describe "Breweries API" do
       end
 
       it "returns a filtered list of breweries, when valid type" do
-        get "/breweries", params: { by_type: "planning" }
+        get "/v1/breweries", params: { by_type: "planning" }
         expect(json.size).to eq(3)
       end
 
       it "throws a 400 error, when invalid type" do
-        get "/breweries", params: { by_type: "notvalid" }
+        get "/v1/breweries", params: { by_type: "notvalid" }
         expect(response).to have_http_status(:bad_request)
       end
     end
@@ -219,12 +217,12 @@ RSpec.describe "Breweries API" do
       end
 
       it "returns a filtered list of breweries - single" do
-        get "/breweries", params: { exclude_types: "micro" }
+        get "/v1/breweries", params: { exclude_types: "micro" }
         expect(json.size).to eq(5)
       end
 
       it "returns a filtered list of breweries - multiple" do
-        get "/breweries", params: { exclude_types: "micro,nano" }
+        get "/v1/breweries", params: { exclude_types: "micro,nano" }
         expect(json.size).to eq(3)
       end
     end
@@ -238,17 +236,17 @@ RSpec.describe "Breweries API" do
       end
 
       it "returns a filtered list of breweries for US postal codes" do
-        get "/breweries", params: { by_postal: "44107" }
+        get "/v1/breweries", params: { by_postal: "44107" }
         expect(json.size).to eq(5)
       end
 
       it "returns a filtered list of breweries for US postal code ZIP+4" do
-        get "/breweries", params: { by_postal: "44107-5555" }
+        get "/v1/breweries", params: { by_postal: "44107-5555" }
         expect(json.size).to eq(2)
       end
 
       it "returns a filtered list of breweries for international postal codes" do
-        get "/breweries", params: { by_postal: "WC2N" }
+        get "/v1/breweries", params: { by_postal: "WC2N" }
         expect(json.size).to eq(1)
       end
     end
@@ -259,12 +257,12 @@ RSpec.describe "Breweries API" do
       end
 
       it "returns 200 when valid params" do
-        get "/breweries", params: { by_dist: "74,-114" }
+        get "/v1/breweries", params: { by_dist: "74,-114" }
         expect(response).to have_http_status(:ok)
       end
 
       it "throws a 400 error when invalid params" do
-        get "/breweries", params: { by_dist: "1" }
+        get "/v1/breweries", params: { by_dist: "1" }
         expect(response).to have_http_status(:bad_request)
       end
     end
@@ -274,7 +272,7 @@ RSpec.describe "Breweries API" do
         create(:brewery, name: "Alesmith", brewery_type: "micro")
         create(:brewery, name: "Ballast Point Brewing Company", brewery_type: "regional")
         create(:brewery, name: "Circle 9 Brewing", brewery_type: "micro")
-        get "/breweries", params: { sort: "type,name:desc" }
+        get "/v1/breweries", params: { sort: "type,name:desc" }
       end
 
       it "returns a sorted list of breweries" do
@@ -285,7 +283,7 @@ RSpec.describe "Breweries API" do
     end
   end
 
-  describe "GET /breweries/meta" do
+  describe "GET /v1/breweries/meta" do
     before do
       create(:brewery)
       create(:brewery, state: "dolnośląskie")
@@ -295,72 +293,72 @@ RSpec.describe "Breweries API" do
     end
 
     it "returns status code 200" do
-      get "/breweries/meta"
+      get "/v1/breweries/meta"
       expect(response).to have_http_status(:ok)
     end
 
     it "returns meta data about all breweries" do
-      get "/breweries/meta"
+      get "/v1/breweries/meta"
       expect(json).to eq({ "total" => "5", "per_page" => "50", "page" => "1" })
     end
 
     it "returns meta data filtered by by_state" do
-      get "/breweries/meta", params: { by_state: "dolnośląskie" }
+      get "/v1/breweries/meta", params: { by_state: "dolnośląskie" }
       expect(json).to eq({ "total" => "2", "per_page" => "50", "page" => "1" })
     end
 
     it "returns meta data filtered by by_country" do
-      get "/breweries/meta", params: { by_country: "Poland" }
+      get "/v1/breweries/meta", params: { by_country: "Poland" }
       expect(json).to eq({ "total" => "1", "per_page" => "50", "page" => "1" })
     end
 
     it "returns meta data filtered by by_postal" do
-      get "/breweries/meta", params: { by_postal: "OBDB123" }
+      get "/v1/breweries/meta", params: { by_postal: "OBDB123" }
       expect(json).to eq({ "total" => "1", "per_page" => "50", "page" => "1" })
     end
 
     it "returns meta data with per_page" do
-      get "/breweries/meta", params: { per_page: 2 }
+      get "/v1/breweries/meta", params: { per_page: 2 }
       expect(json).to eq({ "total" => "5", "per_page" => "2", "page" => "1" })
     end
 
     it "returns meta data with page" do
-      get "/breweries/meta", params: { per_page: 2, page: 3 }
+      get "/v1/breweries/meta", params: { per_page: 2, page: 3 }
       expect(json).to eq({ "total" => "5", "per_page" => "2", "page" => "3" })
     end
   end
 
-  describe "GET /breweries/random" do
+  describe "GET /v1/breweries/random" do
     before do
       create_list(:brewery, 55)
     end
 
     it "returns a brewery" do
-      get "/breweries/random"
+      get "/v1/breweries/random"
       expect(json.size).to eq(1)
     end
 
     it "returns status code 200" do
-      get "/breweries/random"
+      get "/v1/breweries/random"
       expect(response).to have_http_status(:ok)
     end
 
     it "returns a number of breweries when size param" do
-      get "/breweries/random", params: { size: 3 }
+      get "/v1/breweries/random", params: { size: 3 }
       expect(json.size).to eq(3)
     end
 
     it "does not return more breweries than the max allowed" do
-      get "/breweries/random", params: { size: 51 }
+      get "/v1/breweries/random", params: { size: 51 }
       expect(json.size).to eq(50)
     end
   end
 
-  describe "GET /breweries/:id" do
+  describe "GET /v1/breweries/:id" do
     let!(:brewery) { create(:brewery) }
     let(:brewery_id) { brewery.obdb_id }
 
-    before { get "/breweries/#{brewery_id}" }
+    before { get "/v1/breweries/#{brewery_id}" }
 
     context "when the record exists" do
       it "returns status code 200" do
@@ -381,37 +379,37 @@ RSpec.describe "Breweries API" do
     end
   end
 
-  describe "POST /breweries" do
+  describe "POST /v1/breweries" do
     let(:valid_attributes) { { name: "Awesome Brewery" } }
 
     context "when the request is valid" do
       it "returns returns a routing error" do
-        expect { post "/breweries", params: valid_attributes }.to raise_error(
+        expect { post "/v1/breweries", params: valid_attributes }.to raise_error(
           ActionController::RoutingError
         )
       end
     end
   end
 
-  describe "PUT /breweries/:id" do
+  describe "PUT /v1/breweries/:id" do
     let!(:brewery) { create(:brewery) }
     let(:valid_attributes) { { name: "Another Brewery" } }
 
     context "when the record exists" do
       it "returns a routing error" do
         expect do
-          put "/breweries/#{brewery.id}", params: valid_attributes
+          put "/v1/breweries/#{brewery.id}", params: valid_attributes
         end.to raise_error(ActionController::RoutingError)
       end
     end
   end
 
-  describe "DELETE /breweries/:id" do
+  describe "DELETE /v1/breweries/:id" do
     let!(:brewery) { create(:brewery) }
     let(:valid_attributes) { { name: "Another Brewery" } }
 
     it "return a routing error" do
-      expect { delete "/breweries/#{brewery.id}" }.to raise_error(
+      expect { delete "/v1/breweries/#{brewery.id}" }.to raise_error(
         ActionController::RoutingError
       )
     end
