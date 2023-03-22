@@ -1,21 +1,24 @@
 # frozen_string_literal: true
 
+# JSON Serializer for a Brewery model
 class BrewerySerializer < ActiveModel::Serializer
-  attribute :obdb_id, key: :id
+  attribute :id
   attribute :name
   attribute :brewery_type
-  attribute :street
+  attribute :address_1
   attribute :address_2
   attribute :address_3
   attribute :city
-  attribute :state
-  attribute :county_province
+  attribute :state_province
   attribute :postal_code
   attribute :country
   attribute :longitude
   attribute :latitude
   attribute :phone
   attribute :website_url
-  attribute :updated_at
-  attribute :created_at
+
+  # Deprecated - Will be removed at a TBD date
+  # TODO: Not sure this is how you do this
+  # attribute :state, key: :state_province
+  # attribute :street, key: :address_1
 end

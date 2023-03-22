@@ -56,9 +56,9 @@ class UpdateGeocodes
 
       puts "#{brewery.id}. #{brewery.name} - #{brewery.address}".blue
 
-      if brewery.street.present? &&
+      if brewery.address_1.present? &&
          brewery.latitude.blank? &&
-         brewery.street.match?(/[Ste]/)
+         brewery.address_1.match?(/[Ste]/)
 
         unless @dry_run
           if brewery.save

@@ -142,10 +142,10 @@ RSpec.describe "Breweries API" do
 
     context "when by_state param is passed" do
       before do
-        create_list(:brewery, 2, state: "New York")
-        create(:brewery, state: "California")
-        create(:brewery, state: "Delaware")
-        create(:brewery, county_province: "dolnośląskie")
+        create_list(:brewery, 2, state_province: "New York")
+        create(:brewery, state_province: "California")
+        create(:brewery, state_province: "Delaware")
+        create(:brewery, state_province: "dolnośląskie")
       end
 
       it "returns a filtered list of breweries" do
@@ -288,8 +288,8 @@ RSpec.describe "Breweries API" do
   describe "GET /breweries/meta" do
     before do
       create(:brewery)
-      create(:brewery, state: "dolnośląskie")
-      create(:brewery, county_province: "dolnośląskie")
+      create(:brewery, state_province: "Springfield")
+      create(:brewery, state_province: "dolnośląskie")
       create(:brewery, country: "Poland")
       create(:brewery, postal_code: "OBDB123")
     end
@@ -306,7 +306,7 @@ RSpec.describe "Breweries API" do
 
     it "returns meta data filtered by by_state" do
       get "/breweries/meta", params: { by_state: "dolnośląskie" }
-      expect(json).to eq({ "total" => "2", "per_page" => "50", "page" => "1" })
+      expect(json).to eq({ "total" => "1", "per_page" => "50", "page" => "1" })
     end
 
     it "returns meta data filtered by by_country" do
@@ -358,7 +358,7 @@ RSpec.describe "Breweries API" do
 
   describe "GET /breweries/:id" do
     let!(:brewery) { create(:brewery) }
-    let(:brewery_id) { brewery.obdb_id }
+    let(:brewery_id) { brewery.id }
 
     before { get "/breweries/#{brewery_id}" }
 

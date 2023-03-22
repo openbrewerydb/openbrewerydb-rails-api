@@ -59,23 +59,20 @@ module Import
         @counter[:added] += 1
 
         {
-          obdb_id: brewery[:obdb_id],
+          id: brewery[:id],
           name: brewery[:name],
-          street: brewery[:street],
+          brewery_type: brewery[:brewery_type],
+          address_1: brewery[:address_1],
+          address_2: brewery[:address_2],
+          address_3: brewery[:address_3],
           city: brewery[:city],
-          state: brewery[:state],
+          state_province: brewery[:state_province],
           country: brewery[:country],
           postal_code: brewery[:postal_code],
           website_url: brewery[:website_url],
           phone: brewery[:phone],
-          brewery_type: brewery[:brewery_type],
-          address_2: brewery[:address_2],
-          address_3: brewery[:address_3],
-          county_province: brewery[:county_province],
           longitude: brewery[:longitude],
-          latitude: brewery[:latitude],
-          created_at: brewery[:created_at] || Time.now,
-          updated_at: brewery[:updated_at] || Time.now
+          latitude: brewery[:latitude]
         }
       end
 
@@ -94,7 +91,7 @@ module Import
         @counter[:skipped] += breweries.size
       else
         puts "#{Time.now} : Saving breweries".blue
-        Brewery.upsert_all(breweries, unique_by: :obdb_id)
+        Brewery.upsert_all(breweries, unique_by: :id)
       end
     end
 
