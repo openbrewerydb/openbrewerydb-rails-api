@@ -17,8 +17,7 @@ class BrewerySerializer < ActiveModel::Serializer
   attribute :phone
   attribute :website_url
 
-  # Deprecated - Will be removed at a TBD date
-  # TODO: Not sure this is how you do this
-  # attribute :state, key: :state_province
-  # attribute :street, key: :address_1
+  # DEPRECATED - Will be removed at a TBD date
+  attribute :state
+  attribute :street
 end
