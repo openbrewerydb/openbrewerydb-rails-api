@@ -82,7 +82,7 @@ module V1
             Brewery.search(
               params[:query],
               misspellings: { below: 2 }
-            ).map { |b| { id: b.obdb_id, name: b.name } }
+            ).map { |b| { id: b.id, name: b.name } }
           end
         json_response(@breweries)
       end
@@ -140,7 +140,7 @@ module V1
       end
 
       def set_brewery
-        @brewery = Brewery.find_by!(obdb_id: params[:id])
+        @brewery = Brewery.find_by!(id: params[:id])
       end
 
       def validate_params

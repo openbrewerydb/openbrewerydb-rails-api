@@ -100,7 +100,7 @@ Importing data can also be done manually if you grab the data from [openbreweryd
 - Open postgresql shell with `psql <your user>`
 - `\c openbrewerydb_development` to connect to the database
 - Make sure the `breweries` table exists. `\dt`
-- Copy the data to the table: `\copy breweries(obdb_id,name,brewery_type,street,address_2,address_3,city,state,county_province,postal_code,website_url,phone,created_at,updated_at,country,longitude,latitude,tags) from '<path to CSV data file>' DELIMITER ',' CSV HEADER`
+- Copy the data to the table: `\copy breweries(id,name,brewery_type,address_1,address_2,address_3,city,state_province,postal_code,website_url,phone,created_at,updated_at,country,longitude,latitude,tags) from '<path to CSV data file>' DELIMITER ',' CSV HEADER`
 - Run `SELECT * FROM breweries LIMIT 10;` to make sure data loaded
 
 ### Running Tests
