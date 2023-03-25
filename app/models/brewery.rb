@@ -6,6 +6,9 @@ require 'uuid_validator'
 class Brewery < ApplicationRecord
   self.table_name = ENV.fetch('BREWERY_TABLE', 'breweries')
 
+  # Because the table is usually a view (views don't specify a primary key)
+  self.primary_key = 'id'
+
   # Elastic Search via Searchkick
   searchkick
 
