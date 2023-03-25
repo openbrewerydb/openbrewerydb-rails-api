@@ -81,9 +81,14 @@ class Brewery < ApplicationRecord
   # For Searchkick
   def search_data
     {
+      id:,
       name:,
       city:,
-      state_province:
+      state_province:,
+      postal_code:,
+      country:,
+      latitude:,
+      longitude:
     }
   end
 end
