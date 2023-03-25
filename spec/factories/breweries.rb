@@ -2,20 +2,17 @@
 
 FactoryBot.define do
   factory :brewery do
-    obdb_id { "#{name.parameterize}-#{city.parameterize}" }
+    id { Faker::Internet.uuid }
     name { "#{Faker::Company.name} Brewery" }
-    street { Faker::Address.street_address }
+    brewery_type { %w[micro planning brewpub].sample }
+    address_1 { Faker::Address.street_address }
     address_2 { Faker::Address.secondary_address }
     address_3 { nil }
     city { Faker::Address.city }
-    state { Faker::Address.state }
-    county_province { nil }
+    state_province { Faker::Address.state }
     phone { Faker::PhoneNumber.phone_number }
     postal_code { Faker::Address.postcode }
     country { Faker::Address.country }
-    brewery_type { %w[micro planning brewpub].sample }
     website_url { Faker::Internet.url }
-    created_at { Time.now }
-    updated_at { Time.now }
   end
 end

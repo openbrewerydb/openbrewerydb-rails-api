@@ -4,48 +4,38 @@ require "rails_helper"
 
 RSpec.describe Brewery do
   describe "#model_validation" do
-    subject { described_class.new(obdb_id:, name:, city:, state:, country:) }
+    subject(:brewery) { described_class.new(id:, name:, city:, state_province:, country:) }
 
-    let(:obdb_id) { "brewery-id" }
+    let(:id) { SecureRandom.uuid }
     let(:name) { "brewery-name" }
     let(:city) { "brewery-city" }
-    let(:state) { nil }
+    let(:state_province) { nil }
     let(:country) { nil }
 
-    context "when country is US" do
-      context "when state is present" do
-        let(:state) { "brewery-state" }
-        let(:country) { "United States" }
+    context "when state is present" do
+      let(:state_province) { "brewery-state" }
+      let(:country) { "United States" }
 
-        it "validates successfully" do
-          expect(subject.valid?).to eq true
-        end
-      end
-
-      context "when state is nil" do
-        let(:country) { "United States" }
-
-        it "fails validation" do
-          expect(subject.valid?).to eq false
-        end
+      it "validates successfully" do
+        expect(brewery.valid?).to be true
       end
     end
 
-    context "when country is not US" do
-      let(:country) { "Ireland" }
+    context "when state is nil" do
+      let(:country) { "United States" }
 
-      it "validates successfully" do
-        expect(subject.valid?).to eq true
+      it "fails validation" do
+        expect(brewery.valid?).to be false
       end
     end
   end
 
   describe "#address" do
-    let(:brewery) { create(:brewery) }
+    subject(:brewery) { create(:brewery) }
 
     it "returns a full address" do
       expect(brewery.address).to eq(
-        "#{brewery.street}, #{brewery.city}, #{brewery.state}, #{brewery.country}"
+        "#{brewery.address_1}, #{brewery.city}, #{brewery.state_province}, #{brewery.country}"
       )
     end
   end
