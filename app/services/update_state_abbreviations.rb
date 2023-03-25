@@ -68,8 +68,8 @@ class UpdateStateAbbreviations
     if brewery.state.match?(/^[A-Za-z]{2}$/)
       unless @dry_run
         brewery.update_attribute(
-          :state,
-          STATE_ABBR_TO_NAME[brewery.state.upcase]
+          :state_province,
+          STATE_ABBR_TO_NAME[brewery.state_province.upcase]
         )
       end
       @counter[:updated] += 1

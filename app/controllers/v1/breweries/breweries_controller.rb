@@ -109,7 +109,7 @@ module V1
 
       def brewery_params
         params.permit(
-          :name, :street, :city, :state, :postal_code, :phone, :country,
+          :name, :address_1, :city, :state_province, :postal_code, :phone, :country,
           :website_url, :brewery_type
         )
       end
