@@ -25,7 +25,7 @@ class Brewery < ApplicationRecord
   # Filter by `brewery_type`
   scope :by_type, ->(type) { where('lower(brewery_type) = ?', type.downcase) }
   # Filter by multiple, comma-separated `id`s
-  scope :by_ids, ->(ids) { where(id: ids.split(',')) }
+  scope :by_ids, ->(ids) { where(id: ids.split(',').first(50)) }
   # Filter by `city`
   scope :by_city, lambda { |city|
     where(

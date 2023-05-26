@@ -99,6 +99,15 @@ RSpec.describe "Breweries API" do
       end
     end
 
+    context "when by_ids param is passed" do
+      let!(:breweries) { create_list(:brewery, 51) }
+
+      it "returns the expected breweries and limits to 50" do
+        get "/v1/breweries", params: { by_ids: [breweries.map(&:id)].join(",") }
+        expect(json.size).to eq(50)
+      end
+    end
+
     context "when by_country param is passed" do
       before do
         create_list(:brewery, 1, country: "England")
