@@ -81,6 +81,7 @@ module V1
           else
             Brewery.search(
               params[:query],
+              limit: 15,
               misspellings: { below: 2 }
             ).map { |b| { id: b.id, name: b.name } }
           end
